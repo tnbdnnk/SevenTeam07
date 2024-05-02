@@ -1,7 +1,11 @@
 {
-    "name": "taskpro-team7-back",
+    "name": "seventeam07",
     "version": "1.0.0",
     "type": "module",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/tnbdnnk/SevenTeam07"
+    },
     "description": "",
     "main": "index.js",
     "scripts": {
