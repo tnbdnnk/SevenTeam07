@@ -6,7 +6,7 @@ import { userSignupSchema, userSigninSchema, userEmailSchema } from "../schemas/
 
 import validateBody from "../decorators/validateBody.js";
 
-import authenticate from "../middlewares/authenticate.js";
+// import authenticate from "../middlewares/authenticate.js";
 
 const authRouter = express.Router();
 
