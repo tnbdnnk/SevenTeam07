@@ -3,8 +3,10 @@ import "dotenv/config";
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
-
+import mongoose from "mongoose";
 import "./db.js";
+
+import authRouter from "./routes/authRouter.js";
 
 const app = express();
 
@@ -13,6 +15,7 @@ app.use(cors());
 app.use(express.json());
 
 // app.use('/api/users', authRouter);
+app.use("/api/users", authRouter);
 
 app.use((_, res) => {
     res.status(404).json({ message: "Route Not Found" });
