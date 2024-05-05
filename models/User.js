@@ -1,29 +1,29 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose';
 
-import { handleSaveError, setUpdateSetting } from "./hooks.js";
+import { handleSaveError, setUpdateSetting } from './hooks.js';
 
-import { emailRegepxp } from "../constants/user-constants.js";
+import { emailRegepxp } from '../constants/user-constants.js';
 
 const userSchema = new Schema(
   {
     name: {
       type: String,
-      required: [true, "Name is required"],
+      required: [true, 'Name is required'],
     },
     password: {
       type: String,
-      required: [true, "Password is required"],
+      required: [true, 'Password is required'],
     },
     email: {
       type: String,
-      required: [true, "Email is required"],
+      required: [true, 'Email is required'],
       unique: true,
       match: emailRegepxp,
     },
-    // avatarURL: {
-    //   type: String,
-    //   required: true,
-    // },
+    avatarURL: {
+      type: String,
+      // required: true,
+    },
     token: {
       type: String,
       default: null,
@@ -39,12 +39,12 @@ const userSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-userSchema.post("save", handleSaveError);
+userSchema.post('save', handleSaveError);
 
-userSchema.pre("findOneAndUpdate", setUpdateSetting);
+userSchema.pre('findOneAndUpdate', setUpdateSetting);
 
-userSchema.post("findOneAndUpdate", handleSaveError);
+userSchema.post('findOneAndUpdate', handleSaveError);
 
-const User = model("user", userSchema);
+const User = model('user', userSchema);
 
 export default User;
