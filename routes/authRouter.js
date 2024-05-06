@@ -25,4 +25,6 @@ authRouter.post('/login', validateBody(userSigninSchema), authControllers.signin
 
 authRouter.patch('/update', authenticate, upload.single('avatar'), authControllers.updateUser);
 
+authRouter.post('/help', authenticate, validateBody(needHelpEmailSchema), authControllers.sendNeedHelpEmail);
+
 export default authRouter;
