@@ -7,6 +7,7 @@ import {
   userSigninSchema,
   userEmailSchema,
   userUpdateSchema,
+  userThemeUpdateSchema,
 } from '../schemas/usersSchemas.js';
 
 import validateBody from '../decorators/validateBody.js';
@@ -34,6 +35,13 @@ authRouter.patch(
   upload.single('avatar'),
   validateBody(userUpdateSchema),
   authControllers.updateUser
+);
+
+authRouter.patch(
+  '/theme',
+  authenticate,
+  validateBody(userThemeUpdateSchema),
+  authControllers.updateTheme
 );
 
 export default authRouter;

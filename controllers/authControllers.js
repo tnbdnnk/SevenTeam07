@@ -173,6 +173,13 @@ const updateUser = async (req, res) => {
   res.json({ name: result.name, email: result.email, avatarURL: result.avatarURL });
 };
 
+const updateTheme = async (req, res) => {
+  const { _id: id } = req.user;
+  const result = await User.findByIdAndUpdate(id, req.body, { new: true });
+  if (!result) throw HttpError(404);
+  res.json({ theme: result.theme });
+};
+
 export default {
   signup: ctrlWrapper(signup),
   verify: ctrlWrapper(verify),
@@ -181,4 +188,5 @@ export default {
   // getCurrent: ctrlWrapper(getCurrent),
   // signout: ctrlWrapper(signout),
   updateUser: ctrlWrapper(updateUser),
+  updateTheme: ctrlWrapper(updateTheme),
 };
