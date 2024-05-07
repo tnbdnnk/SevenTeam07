@@ -36,4 +36,6 @@ authRouter.patch(
   authControllers.updateUser
 );
 
+authRouter.post('/help', authenticate, validateBody(needHelpEmailSchema), authControllers.sendNeedHelpEmail);
+
 export default authRouter;
