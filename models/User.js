@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose';
 
 import { handleSaveError, setUpdateSetting } from './hooks.js';
 
-import { emailRegepxp } from '../constants/user-constants.js';
+import { emailRegepxp, themesList } from '../constants/user-constants.js';
 
 const userSchema = new Schema(
   {
@@ -22,7 +22,12 @@ const userSchema = new Schema(
     },
     avatarURL: {
       type: String,
-      // required: true,
+      default: 'http://res.cloudinary.com/dgo1apgvd/image/upload/v1714867826/avatar/default.jpg',
+    },
+    theme: {
+      type: String,
+      enum: themesList,
+      default: 'light',
     },
     token: {
       type: String,

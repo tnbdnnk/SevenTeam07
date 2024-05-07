@@ -7,7 +7,8 @@ import {
   userSigninSchema,
   userEmailSchema,
   userUpdateSchema,
-  needHelpEmailSchema
+  userThemeUpdateSchema,
+  needHelpEmailSchema,
 } from '../schemas/usersSchemas.js';
 
 import validateBody from '../decorators/validateBody.js';
@@ -37,6 +38,17 @@ authRouter.patch(
   authControllers.updateUser
 );
 
-authRouter.post('/help', authenticate, validateBody(needHelpEmailSchema), authControllers.sendNeedHelpEmail);
+authRouter.patch(
+  '/theme',
+  authenticate,
+  validateBody(userThemeUpdateSchema),
+  authControllers.updateTheme
+);
+authRouter.post(
+  '/help',
+  authenticate,
+  validateBody(needHelpEmailSchema),
+  authControllers.sendNeedHelpEmail
+);
 
 export default authRouter;

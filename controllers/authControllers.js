@@ -173,11 +173,18 @@ const updateUser = async (req, res) => {
   res.json({ name: result.name, email: result.email, avatarURL: result.avatarURL });
 };
 
-const sendNeedHelpEmail = async (req, res, next) => { 
+const updateTheme = async (req, res) => {
+  const { _id: id } = req.user;
+  const result = await User.findByIdAndUpdate(id, req.body, { new: true });
+  if (!result) throw HttpError(404);
+  res.json({ theme: result.theme });
+};
+
+const sendNeedHelpEmail = async (req, res, next) => {
   const { email, comment } = req.body;
   const { email: userEmail } = req.user;
   if (!userEmail) {
-    return next(HttpError(404, "User not found"));
+    return next(HttpError(404, 'User not found'));
   }
   const needHelpEmail = {
     to: 'taskpro.project@gmail.com',
@@ -199,5 +206,6 @@ export default {
   // getCurrent: ctrlWrapper(getCurrent),
   // signout: ctrlWrapper(signout),
   updateUser: ctrlWrapper(updateUser),
+  updateTheme: ctrlWrapper(updateTheme),
   sendNeedHelpEmail: ctrlWrapper(sendNeedHelpEmail),
 };
