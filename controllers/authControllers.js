@@ -140,15 +140,62 @@ const singin = async (req, res) => {
 //     })
 // }
 const updateUser = async (req, res) => {
-  const { _id } = req.user;
+  const { _id: id } = req.user;
+  console.log(req.body);
+  const { name: updateName, email: updateEmail, password: updatePassword } = req.body;
+  console.log(updatePassword);
   const { file } = req;
-  const { url: avatarURL } = await cloudinary.uploader.upload(file.path, {
-    folder: 'avatar',
-    public_id: file.filename,
+  const isCheckUpdateEmail = await User.findOne({ email: updateEmail });
+  if (isCheckUpdateEmail) {
+    throw HttpError(409, 'Email in use');
+  }
+  const isUpdateUserInfo = {};
+  if (updateEmail) {
+    isUpdateUserInfo.email = updateEmail;
+  }
+  if (updateName) {
+    isUpdateUserInfo.name = updateName;
+  }
+  if (updatePassword) {
+    isUpdateUserInfo.password = await bcrypt.hash(updatePassword, 10);
+  }
+  if (file) {
+    const { url: avatarURL } = await cloudinary.uploader.upload(file.path, {
+      folder: 'avatar',
+      public_id: file.filename,
+    });
+    await fs.unlink(req.file.path);
+    isUpdateUserInfo.avatarURL = avatarURL;
+  }
+
+  const result = await User.findByIdAndUpdate(id, isUpdateUserInfo, { new: true });
+  if (!result) throw HttpError(404);
+  res.json({ name: result.name, email: result.email, avatarURL: result.avatarURL });
+};
+
+const updateTheme = async (req, res) => {
+  const { _id: id } = req.user;
+  const result = await User.findByIdAndUpdate(id, req.body, { new: true });
+  if (!result) throw HttpError(404);
+  res.json({ theme: result.theme });
+};
+
+const sendNeedHelpEmail = async (req, res, next) => {
+  const { email, comment } = req.body;
+  const { email: userEmail } = req.user;
+  if (!userEmail) {
+    return next(HttpError(404, 'User not found'));
+  }
+  const needHelpEmail = {
+    to: 'taskpro.project@gmail.com',
+    from: userEmail,
+    subject: 'Need Help',
+    html: `<p>Email: ${email}</p><p>Comment:</p><p>${comment}</p>`,
+  };
+  await sendEmail(needHelpEmail);
+  res.status(200).json({
+    message: 'Need Help email sent',
   });
-  await fs.unlink(req.file.path);
-  const result = await User.findByIdAndUpdate(_id, { avatarURL });
-  res.json(result.avatarURL);
 };
 
 export default {
@@ -159,4 +206,6 @@ export default {
   // getCurrent: ctrlWrapper(getCurrent),
   // signout: ctrlWrapper(signout),
   updateUser: ctrlWrapper(updateUser),
+  updateTheme: ctrlWrapper(updateTheme),
+  sendNeedHelpEmail: ctrlWrapper(sendNeedHelpEmail),
 };

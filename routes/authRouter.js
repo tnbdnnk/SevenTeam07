@@ -2,7 +2,14 @@ import express from 'express';
 
 import authControllers from '../controllers/authControllers.js';
 
-import { userSignupSchema, userSigninSchema, userEmailSchema } from '../schemas/usersSchemas.js';
+import {
+  userSignupSchema,
+  userSigninSchema,
+  userEmailSchema,
+  userUpdateSchema,
+  userThemeUpdateSchema,
+  needHelpEmailSchema,
+} from '../schemas/usersSchemas.js';
 
 import validateBody from '../decorators/validateBody.js';
 import { upload } from '../middlewares/upload.js';
@@ -23,6 +30,25 @@ authRouter.post('/login', validateBody(userSigninSchema), authControllers.signin
 
 // authRouter.post("/logout", authenticate, authControllers.signout);
 
-authRouter.patch('/update', authenticate, upload.single('avatar'), authControllers.updateUser);
+authRouter.patch(
+  '/update',
+  authenticate,
+  upload.single('avatar'),
+  validateBody(userUpdateSchema),
+  authControllers.updateUser
+);
+
+authRouter.patch(
+  '/theme',
+  authenticate,
+  validateBody(userThemeUpdateSchema),
+  authControllers.updateTheme
+);
+authRouter.post(
+  '/help',
+  authenticate,
+  validateBody(needHelpEmailSchema),
+  authControllers.sendNeedHelpEmail
+);
 
 export default authRouter;
