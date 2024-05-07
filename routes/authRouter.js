@@ -8,6 +8,7 @@ import {
   userEmailSchema,
   userUpdateSchema,
   userThemeUpdateSchema,
+  needHelpEmailSchema,
 } from '../schemas/usersSchemas.js';
 
 import validateBody from '../decorators/validateBody.js';
