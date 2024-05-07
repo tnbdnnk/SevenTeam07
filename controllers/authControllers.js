@@ -140,15 +140,37 @@ const singin = async (req, res) => {
 //     })
 // }
 const updateUser = async (req, res) => {
-  const { _id } = req.user;
+  const { _id: id } = req.user;
+  console.log(req.body);
+  const { name: updateName, email: updateEmail, password: updatePassword } = req.body;
+  console.log(updatePassword);
   const { file } = req;
-  const { url: avatarURL } = await cloudinary.uploader.upload(file.path, {
-    folder: 'avatar',
-    public_id: file.filename,
-  });
-  await fs.unlink(req.file.path);
-  const result = await User.findByIdAndUpdate(_id, { avatarURL });
-  res.json(result.avatarURL);
+  const isCheckUpdateEmail = await User.findOne({ email: updateEmail });
+  if (isCheckUpdateEmail) {
+    throw HttpError(409, 'Email in use');
+  }
+  const isUpdateUserInfo = {};
+  if (updateEmail) {
+    isUpdateUserInfo.email = updateEmail;
+  }
+  if (updateName) {
+    isUpdateUserInfo.name = updateName;
+  }
+  if (updatePassword) {
+    isUpdateUserInfo.password = await bcrypt.hash(updatePassword, 10);
+  }
+  if (file) {
+    const { url: avatarURL } = await cloudinary.uploader.upload(file.path, {
+      folder: 'avatar',
+      public_id: file.filename,
+    });
+    await fs.unlink(req.file.path);
+    isUpdateUserInfo.avatarURL = avatarURL;
+  }
+
+  const result = await User.findByIdAndUpdate(id, isUpdateUserInfo, { new: true });
+  if (!result) throw HttpError(404);
+  res.json({ name: result.name, email: result.email, avatarURL: result.avatarURL });
 };
 
 const sendNeedHelpEmail = async (req, res, next) => { 
