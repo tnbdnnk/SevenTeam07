@@ -10,8 +10,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./app.js",
-    "dev": "nodemon ./app.js"
+    "start": "node ./db.js",
+    "dev": "nodemon ./db.js"
   },
   "keywords": [],
   "author": "",
