@@ -43,5 +43,11 @@ authRouter.patch(
   validateBody(userThemeUpdateSchema),
   authControllers.updateTheme
 );
+authRouter.post(
+  '/help',
+  authenticate,
+  validateBody(needHelpEmailSchema),
+  authControllers.sendNeedHelpEmail
+);
 
 export default authRouter;

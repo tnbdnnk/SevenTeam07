@@ -180,6 +180,24 @@ const updateTheme = async (req, res) => {
   res.json({ theme: result.theme });
 };
 
+const sendNeedHelpEmail = async (req, res, next) => {
+  const { email, comment } = req.body;
+  const { email: userEmail } = req.user;
+  if (!userEmail) {
+    return next(HttpError(404, 'User not found'));
+  }
+  const needHelpEmail = {
+    to: 'taskpro.project@gmail.com',
+    from: userEmail,
+    subject: 'Need Help',
+    html: `<p>Email: ${email}</p><p>Comment:</p><p>${comment}</p>`,
+  };
+  await sendEmail(needHelpEmail);
+  res.status(200).json({
+    message: 'Need Help email sent',
+  });
+};
+
 export default {
   signup: ctrlWrapper(signup),
   verify: ctrlWrapper(verify),
@@ -189,4 +207,5 @@ export default {
   // signout: ctrlWrapper(signout),
   updateUser: ctrlWrapper(updateUser),
   updateTheme: ctrlWrapper(updateTheme),
+  sendNeedHelpEmail: ctrlWrapper(sendNeedHelpEmail),
 };
