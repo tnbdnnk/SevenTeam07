@@ -118,27 +118,27 @@ const singin = async (req, res) => {
   });
 };
 
-// const getCurrent = async (req, res) => {
-//     const { subscription , email } = req.user;
-//     if(!email) {
-//         throw HttpError(401, "Not authorized");
-//     }
-//     res.json({
-//         email,
-//         subscription,
-//     })
-// }
+const getCurrent = async (req, res) => {
+    const { subscription , email } = req.user;
+    if(!email) {
+        throw HttpError(401, "Not authorized");
+    }
+    res.json({
+        email,
+        subscription,
+    })
+}
 
-// const signout = async (req, res) => {
-//     const { _id } = req.user;
-//     await authServices.updateUser({ _id }, { token: "" });
-//     if(!_id) {
-//         throw HttpError(401, "Not authorized");
-//     }
-//     res.status(204).json({
+const signout = async (req, res) => {
+    const { _id } = req.user;
+    await authServices.updateUser({ _id }, { token: "" });
+    if(!_id) {
+        throw HttpError(401, "Not authorized");
+    }
+    res.status(204).json({
 
-//     })
-// }
+    })
+}
 const updateUser = async (req, res) => {
   const { _id: id } = req.user;
   console.log(req.body);
@@ -203,8 +203,8 @@ export default {
   verify: ctrlWrapper(verify),
   resendVerify: ctrlWrapper(resendVerify),
   signin: ctrlWrapper(singin),
-  // getCurrent: ctrlWrapper(getCurrent),
-  // signout: ctrlWrapper(signout),
+  getCurrent: ctrlWrapper(getCurrent),
+  signout: ctrlWrapper(signout),
   updateUser: ctrlWrapper(updateUser),
   updateTheme: ctrlWrapper(updateTheme),
   sendNeedHelpEmail: ctrlWrapper(sendNeedHelpEmail),

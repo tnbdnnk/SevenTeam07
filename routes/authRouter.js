@@ -26,9 +26,9 @@ authRouter.post('/verify', validateBody(userEmailSchema), authControllers.resend
 
 authRouter.post('/login', validateBody(userSigninSchema), authControllers.signin);
 
-// authRouter.get("/current", authenticate, authControllers.getCurrent);
+authRouter.get("/current", authenticate, authControllers.getCurrent);
 
-// authRouter.post("/logout", authenticate, authControllers.signout);
+authRouter.post("/logout", authenticate, authControllers.signout);
 
 authRouter.patch(
   '/update',
