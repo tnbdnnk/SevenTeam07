@@ -1,7 +1,10 @@
 import Board from "../models/BoardModel.js";
+import Card from "../models/CardModel.js";
 import Column from "../models/ColumnModel.js";
+import User from "../models/User.js";
 import HttpError from "../helpers/HttpError.js";
 import ctrlWrapper from "../decorators/ctrlWrapper.js";
+import mongoose from "mongoose";
 
 const addColumn = ctrlWrapper(async (req, res) => {
   const { id: columnOwner } = req.params;
@@ -17,7 +20,6 @@ const addColumn = ctrlWrapper(async (req, res) => {
   const result = await Column.create({ ...req.body, columnOwner });
   res.status(201).json(result);
 });
-
 
 const updateColumn = ctrlWrapper(async (req, res) => {
   const { id } = req.params;
@@ -37,7 +39,6 @@ const updateColumn = ctrlWrapper(async (req, res) => {
   res.json(result);
 });
 
-
 const deleteColumn = ctrlWrapper(async (req, res) => {
   const { id } = req.params;
   const isColumnExists = await Column.findOne({ _id: id });
@@ -53,9 +54,4 @@ const deleteColumn = ctrlWrapper(async (req, res) => {
   });
 });
 
-
-export  {
-    addColumn,
-    updateColumn,
-    deleteColumn,
-};
+export { addColumn, updateColumn, deleteColumn };

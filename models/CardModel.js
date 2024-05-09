@@ -35,6 +35,6 @@ cardSchema.pre('findOneAndUpdate', setUpdateSetting);
 
 cardSchema.post('findOneAndUpdate', handleSaveError);
 
-const Card = ('card', cardSchema);
+const Card = model('card', cardSchema);
 
 export default Card;

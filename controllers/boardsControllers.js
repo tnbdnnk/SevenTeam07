@@ -1,4 +1,6 @@
-import Board  from "../models/BoardModel.js";
+import Board from "../models/BoardModel.js";
+import Card from "../models/CardModel.js";
+import Column from "../models/ColumnModel.js";
 import User from "../models/User.js"
 import HttpError from "../helpers/HttpError.js";
 import ctrlWrapper from "../decorators/ctrlWrapper.js";

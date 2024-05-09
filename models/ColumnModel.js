@@ -21,6 +21,6 @@ columnSchema.pre('findOneAndUpdate', setUpdateSetting);
 
 columnSchema.post('findOneAndUpdate', handleSaveError);
 
-const Column = ('column', columnSchema);
+const Column = model('column', columnSchema);
 
-export default Column;
+export default Column ;

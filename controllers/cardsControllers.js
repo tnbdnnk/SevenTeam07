@@ -1,7 +1,10 @@
+import Board from "../models/BoardModel.js";
 import Card from "../models/CardModel.js";
 import Column from "../models/ColumnModel.js";
+import User from "../models/User.js";
 import HttpError from "../helpers/HttpError.js";
 import ctrlWrapper from "../decorators/ctrlWrapper.js";
+import mongoose from "mongoose";
 
 const addCard = ctrlWrapper(async (req, res) => {
   const { id } = req.params;
@@ -18,7 +21,6 @@ const addCard = ctrlWrapper(async (req, res) => {
   res.status(201).json(data);
 });
 
-
 const deleteCard = ctrlWrapper(async (req, res) => {
   const { id } = req.params;
   const result = await Card.findByIdAndDelete({ _id: id });
@@ -30,7 +32,6 @@ const deleteCard = ctrlWrapper(async (req, res) => {
     message: `Card ${id} deleted successfully`,
   });
 });
-
 
 const updateCard = ctrlWrapper(async (req, res) => {
   const { id } = req.params;
@@ -54,7 +55,6 @@ const updateCard = ctrlWrapper(async (req, res) => {
   res.status(200).json({ ...updatedCard._doc, deadline: date });
 });
 
-
 const moveCard = ctrlWrapper(async (req, res) => {
   const { id } = req.params;
   const { newColumnId } = req.body;
@@ -66,10 +66,7 @@ const moveCard = ctrlWrapper(async (req, res) => {
     throw HttpError(404, `Card ${id} not found`);
   }
   if (newColumnId === card.cardOwner.toString()) {
-    throw HttpError(
-      400,
-      "New column id must be different from the current"
-    );
+    throw HttpError(400, "New column id must be different from the current");
   }
   const [column, newColumn] = await Promise.all([
     Column.findById(card.cardOwner),
@@ -91,9 +88,4 @@ const moveCard = ctrlWrapper(async (req, res) => {
   });
 });
 
-export {
-    addCard,
-    deleteCard,
-    updateCard,
-    moveCard,
-};
+export { addCard, deleteCard, updateCard, moveCard };
