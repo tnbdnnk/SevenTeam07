@@ -200,8 +200,8 @@ const sendNeedHelpEmail = async (req, res, next) => {
 
 export default {
   signup: ctrlWrapper(signup),
-  verify: ctrlWrapper(verify),
-  resendVerify: ctrlWrapper(resendVerify),
+  // verify: ctrlWrapper(verify),
+  // resendVerify: ctrlWrapper(resendVerify),
   signin: ctrlWrapper(singin),
   getCurrent: ctrlWrapper(getCurrent),
   signout: ctrlWrapper(signout),
