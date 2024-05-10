@@ -18,26 +18,6 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
-
-// const options = {
-//     definition: {
-//         openapi: '3.0.0',
-//         info: {
-//             title: 'Project TaskPro API by SevenTeam07',
-//             version: '1.0.0'
-//         },
-//         servers: [
-//             {
-//                 url: "https://project-seventeam07.onrender.com",
-//             }
-//         ]
-//     },
-//     apis: ['./routes/authRouter.js'],
-// };
-
-// const specs = swaggerJSDoc(options);
-
-// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/api/users", authRouter);
