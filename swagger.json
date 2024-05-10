@@ -612,7 +612,7 @@
             }
         }
         },
-        "/api/boards{id}": {
+        "/api/boards/{id}": {
         "get": {
             "tags": ["Boards"],
             "summary": "Get user board by id",
@@ -824,7 +824,7 @@
             }
         }
         },
-        "/api/columns{id}": {
+        "/api/columns/{id}": {
             "post": {
                 "tags": ["Columns"],
                 "summary": "Add new column",
