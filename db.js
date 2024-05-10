@@ -8,7 +8,7 @@ mongoose.set("strictQuery", true);
 const { MONGO_DB, PORT } = process.env;
 mongoose
     .connect(MONGO_DB)
-    .then(app.listen(PORT, () => console.log(`Server runniing on port: ${PORT}`)))
+    .then(app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
     .catch((err) => {
         console.log(err.message);
         process.exit();
