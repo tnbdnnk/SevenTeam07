@@ -1,12 +1,12 @@
 import Joi from "joi";
 
 const addColumnSchema = Joi.object({
-  title: Joi.string().required().messages({ "any.required": "missing required Column title" }),
-  columnOwner: Joi.string(),
+    title: Joi.string().required().messages({ "any.required": "missing required Column title" }),
+    columnOwner: Joi.string(),
 });
 
 const updateColumnSchema = Joi.object({
-  title: Joi.string().required().messages({ "any.required": "missing required Column title" }),
+    title: Joi.string().required().messages({ "any.required": "missing required Column title" }),
 });
 
 
