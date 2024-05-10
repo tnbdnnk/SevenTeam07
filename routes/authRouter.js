@@ -18,17 +18,32 @@ import authenticate from '../middlewares/authenticate.js';
 
 const authRouter = express.Router();
 
-authRouter.post('/register', validateBody(userSignupSchema), authControllers.signup);
+authRouter.post(
+  '/register', 
+  validateBody(userSignupSchema), 
+  authControllers.signup
+);
 
-authRouter.get('/verify/:verificationToken', authControllers.verify);
+// authRouter.get('/verify/:verificationToken', authControllers.verify);
+// authRouter.post('/verify', validateBody(userEmailSchema), authControllers.resendVerify);
 
-authRouter.post('/verify', validateBody(userEmailSchema), authControllers.resendVerify);
+authRouter.post(
+  '/login', 
+  validateBody(userSigninSchema), 
+  authControllers.signin
+);
 
-authRouter.post('/login', validateBody(userSigninSchema), authControllers.signin);
+authRouter.get(
+  "/current", 
+  authenticate, 
+  authControllers.getCurrent
+);
 
-authRouter.get("/current", authenticate, authControllers.getCurrent);
-
-authRouter.post("/logout", authenticate, authControllers.signout);
+authRouter.post(
+  "/logout", 
+  authenticate, 
+  authControllers.signout
+);
 
 authRouter.patch(
   '/update',
@@ -44,6 +59,7 @@ authRouter.patch(
   validateBody(userThemeUpdateSchema),
   authControllers.updateTheme
 );
+
 authRouter.post(
   '/help',
   authenticate,
