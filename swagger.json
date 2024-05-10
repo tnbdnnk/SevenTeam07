@@ -824,7 +824,7 @@
             }
         }
         },
-        "/api/columns": {
+        "/api/columns{id}": {
             "post": {
                 "tags": ["Columns"],
                 "summary": "Add new column",
