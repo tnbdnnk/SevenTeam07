@@ -31,14 +31,14 @@
         }
     ],
     "paths": {
-        "/api/users/singup": {
+        "/api/users/register": {
             "post": {
                 "tags": ["Auth"],
                 "summary": "Sign up new user - User registration",
                 "parameters": [],
                 "requestBody": {
                     "required": true,
-                    "description": "# Опис параметрів запиту:\n\n**name** - string, ім'я користувача. **Обов'язковий параметр**\n\n**email** - string, електронна пошта користувача.  **Обов'язковий параметр**\n\n**password** - string, зашифрований пароль користувача.  **Обов'язковий параметр** \n",
+                    "description": "",
                     "content": {
                         "application/json": {
                             "schema": {
@@ -49,7 +49,7 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "New user created, registration successful\n\nОпис параметрів відповіді:\n\nJSON-об'єкт, який містить інформацію про поточного авторизованого користувача.\n\n**_id** - ObjectId, унікальний ідентифікатор користувача\n\n**name** - string, ім'я користувача.\n\n**email** - string, електронна пошта користувача.\n\n**avatarURL** - string, пустий рядок поки юзер не має аватара.\n\n**userTheme** - string, тема, обрана користувачем.\n\n**accessToken, refreshToken** - string, токен використовується для зберігання стану авторизації користувача в системі, що дозволяє користувачам здійснювати захищені запити до API. Токен є довільним рядком символів і генерується при кожній новій авторизації користувача.\n",
+                        "description": "New user created, registration successful",
                         "content": {
                             "application/json": {
                                 "schema": {

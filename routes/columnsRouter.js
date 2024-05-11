@@ -13,7 +13,13 @@ import { addColumnSchema, updateColumnSchema } from "../schemas/columnSchemas.js
 const columnsRouter = express.Router();
 
 columnsRouter
-  .post("/:id", authenticate, isValidId, validateBody(addColumnSchema), addColumn)
+  .post(
+    "/:id",
+    authenticate,
+    isValidId,
+    validateBody(addColumnSchema),
+    addColumn
+  )
   .patch(
     "/:id",
     authenticate,
@@ -21,6 +27,11 @@ columnsRouter
     validateBody(updateColumnSchema),
     updateColumn
   )
-  .delete("/:id", authenticate, isValidId, deleteColumn);
+  .delete(
+    "/:id",
+    authenticate,
+    isValidId,
+    deleteColumn
+  );
 
 export default columnsRouter;
