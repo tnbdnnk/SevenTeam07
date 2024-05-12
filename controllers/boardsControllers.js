@@ -113,10 +113,6 @@ const updateBoard = ctrlWrapper(async (req, res) => {
   if (!board) {
     throw HttpError(404, "Not Found");
   }
-  const isBoardExists = await Board.findOne({ owner, title });
-  if (isBoardExists) {
-    throw HttpError(409, `Board "${title}" already exists`);
-  }
   if (
     (title && title !== board.title) ||
     (icon && icon !== board.icon) ||
