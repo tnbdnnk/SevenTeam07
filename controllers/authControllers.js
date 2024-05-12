@@ -184,17 +184,20 @@ const updateTheme = async (req, res) => {
 };
 
 const sendNeedHelpEmail = async (req, res, next) => {
-  const { email, comment } = req.body;
-  const { email: userEmail } = req.user;
+  const { formData } = req.body;
+  const { email, text} = formData;
+  const userEmail = req.user.email;
+  
   if (!userEmail) {
     return next(HttpError(404, 'User not found'));
   }
+  
   const needHelpEmail = {
-    to: 'taskpro.project@gmail.com',
-    from: userEmail,
+    to: 'oleksii.mbox@gmail.com',
     subject: 'Need Help',
-    html: `<p>Email: ${email}</p><p>Comment:</p><p>${comment}</p>`,
+    html: `<p>Email: ${email}</p><p>Comment:</p><p>${text}</p>`,
   };
+
   await sendEmail(needHelpEmail);
   res.status(200).json({
     message: 'Need Help email sent',
