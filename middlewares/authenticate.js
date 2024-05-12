@@ -1,39 +1,67 @@
 import jwt from "jsonwebtoken";
-import User from "../models/User.js";
-// import HttpError from "../helpers/HttpError.js";
 
-// import { findUser } from "../services/authServices.js";
+import HttpError from "../helpers/HttpError.js";
 
-// const {JWT_SECRET} = process.env;
+import { findUser } from "../services/authServices.js";
+
+const {JWT_SECRET} = process.env;
 
 const authenticate = async(req, res, next)=> {
-const authorizarionHeader = req.headers.authorization;
-    if (typeof authorizarionHeader === "undefined") {
-    return res.status(401).json({ message: "Authorization header is missing" });
+    const {authorization} = req.headers;
+    if(!authorization) {
+        return next(HttpError(401, "Authoriztion header not found"));
     }
-    const [bearer, token] = authorizarionHeader.split(" ", 2);
-    if (bearer !== "Bearer" || !token) {
-    return res
-        .status(401)
-        .json({ message: "Invalid authorization header format" });
+
+    const [bearer, token] = authorization.split(" ");
+    if(bearer !== "Bearer") {
+        return next(HttpError(401));
     }
-    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
-    if (err) {
-        if (err.name === "TokenExpiredError") {
-        return res.status(401).json({ message: "Token expired error." });
+
+    try {
+        const {id} = jwt.verify(token, JWT_SECRET);
+        const user = await findUser({_id: id});
+        if(!user) {
+            return next(HttpError(401, "User not found"));
         }
-        return res.status(401).json({ message: "Invalid token" });
+        if(!user.token) {
+            return next(HttpError(401, "Token invalid"));
+        }
+        req.user = user;
+        next();
     }
-    const user = await User.findById(decoded.id);
-    if (!user || !user.token) {
-        return res.status(401).json({ message: "Not authorized" });
+    catch(error) {
+        next(HttpError(401, error.message))
     }
-    req.user = {
-        id: decoded.id,
-        email: decoded.email,
-    };
-    next();
-    });
 }
 
 export default authenticate;
+
+// const authenticate = async (req, res, next) => {
+//   const authorizarionHeader = req.headers.authorization;
+//   if (typeof authorizarionHeader === "undefined") {
+//     return res.status(401).json({ message: "Authorization header is missing" });
+//   }
+//   const [bearer, token] = authorizarionHeader.split(" ", 2);
+//   if (bearer !== "Bearer" || !token) {
+//     return res
+//       .status(401)
+//       .json({ message: "Invalid authorization header format" });
+//   }
+//   jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+//     if (err) {
+//       if (err.name === "TokenExpiredError") {
+//         return res.status(401).json({ message: "Token expired error." });
+//       }
+//       return res.status(401).json({ message: "Invalid token" });
+//     }
+//     const user = await User.findById(decoded.id);
+//     if (!user || !user.token) {
+//       return res.status(401).json({ message: "Not authorized" });
+//     }
+//     req.user = {
+//       id: decoded.id,
+//       email: decoded.email,
+//     };
+//     next();
+//   });
+// };
