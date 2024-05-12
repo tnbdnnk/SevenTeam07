@@ -18,19 +18,22 @@ const authenticate = async(req, res, next)=> {
     }
 
     try {
-        const {id} = jwt.verify(token, JWT_SECRET);
-        const user = await findUser({_id: id});
-        if(!user) {
-            return next(HttpError(401, "User not found"));
+        const { id } = jwt.verify(token, JWT_SECRET);
+        if (!id) {
+        throw new Error("Invalid token: User ID not found");
         }
-        if(!user.token) {
-            return next(HttpError(401, "Token invalid"));
+        const user = await findUser({ _id: id });
+        if (!user) {
+        throw new Error("User not found");
+        }
+        if (!user.token) {
+        throw new Error("Invalid token");
         }
         req.user = user;
         next();
-    }
-    catch(error) {
-        next(HttpError(401, error.message))
+    } catch (error) {
+        console.error("Authentication error:", error);
+        return next(HttpError(401, error.message || "Authentication error"));
     }
 }
 

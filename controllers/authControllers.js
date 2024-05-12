@@ -123,17 +123,22 @@ const singin = async (req, res) => {
   });
 };
 
-const getCurrent = async (req, res) => {
+const getCurrent = async (req, res, next) => {
+  try {
     const { email } = req.user;
-    if(!email) {
-        throw HttpError(401, "Not authorized");
+    if (!email) {
+      throw new Error("User email not found");
     }
     res.json({
-        email,
-        avatarURL, 
-        theme,
-    })
-}
+      email,
+      avatarURL,
+      theme,
+    });
+  } catch (error) {
+    console.error("Error getting current user:", error);
+    return next(HttpError(401, error.message || "Error getting current user"));
+  }
+};
 
 const signout = async (req, res) => {
     const { _id } = req.user;

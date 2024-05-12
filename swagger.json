@@ -1581,7 +1581,7 @@
                                 "example": "https://exampleURL",
                                 "description": "link to user's avatar or empty string if user have no avatar yet"
                             },
-                            "userTheme": {
+                            "theme": {
                                 "type": "string",
                                 "description": "user's theme",
                                 "example": "light"
