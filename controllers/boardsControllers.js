@@ -122,10 +122,11 @@ const updateBoard = ctrlWrapper(async (req, res) => {
 
   // Оновлюємо поля дошки
   if (
-    (title && title !== board.title) ||
-    (icon && icon !== board.icon) ||
-    (background && background !== board.background)
+    title !== board.title ||
+    icon !== board.icon ||
+    background !== board.background
   ) {
+    // Оновлюємо поля дошки
     if (title) board.title = title;
     if (icon) board.icon = icon;
     if (background) board.background = background;
