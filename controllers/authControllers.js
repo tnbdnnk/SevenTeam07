@@ -125,7 +125,7 @@ const singin = async (req, res) => {
 
 const getCurrent = async (req, res, next) => {
   try {
-    const { email } = req.user;
+    const { email, avatarURL, theme } = req.user;
     if (!email) {
       throw new Error("User email not found");
     }
