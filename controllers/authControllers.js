@@ -44,6 +44,8 @@ const signup = async (req, res) => {
     user: {
       name: newUser.name,
       email: newUser.email,
+      avatarURL: newUser.avatarURL,
+      theme: newUser.theme,
     },
   });
 };
@@ -114,18 +116,19 @@ const singin = async (req, res) => {
 
   res.json({
     token: token,
-    user: { name: user.name, email: user.email },
+    user: { name: user.name, email: user.email, avatarURL: user.avatarURL, theme: user.theme },
   });
 };
 
 const getCurrent = async (req, res) => {
-    const { subscription , email } = req.user;
+    const { email } = req.user;
     if(!email) {
         throw HttpError(401, "Not authorized");
     }
     res.json({
         email,
-        subscription,
+        avatarURL, 
+        theme,
     })
 }
 
