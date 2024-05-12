@@ -32,6 +32,8 @@ const signup = async (req, res) => {
     password: hashPassword,
     // verificationToken,
   });
+  const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '48h' });
+  await authServices.updateUser({ _id: id }, { token });
 
   // const verifyEmail = {
   //   to: email,
@@ -41,6 +43,7 @@ const signup = async (req, res) => {
 
   // await sendEmail(verifyEmail);
   res.status(201).json({
+    token: token,
     user: {
       name: newUser.name,
       email: newUser.email,
