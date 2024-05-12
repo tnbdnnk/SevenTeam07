@@ -113,20 +113,15 @@ const updateBoard = ctrlWrapper(async (req, res) => {
   if (!board) {
     throw HttpError(404, "Not Found");
   }
-
-  // Перевіряємо, чи є інша дошка з таким же заголовком (окрім поточної)
-  const isBoardExists = await Board.findOne({ owner, title, _id: { $ne: id } });
+  const isBoardExists = await Board.findOne({ owner, title });
   if (isBoardExists) {
     throw HttpError(409, `Board "${title}" already exists`);
   }
-
-  // Оновлюємо поля дошки
   if (
-    title !== board.title ||
-    icon !== board.icon ||
-    background !== board.background
+    (title && title !== board.title) ||
+    (icon && icon !== board.icon) ||
+    (background && background !== board.background)
   ) {
-    // Оновлюємо поля дошки
     if (title) board.title = title;
     if (icon) board.icon = icon;
     if (background) board.background = background;
@@ -136,7 +131,6 @@ const updateBoard = ctrlWrapper(async (req, res) => {
     throw HttpError(400, "No data to update");
   }
 });
-
 
 
 export  {
