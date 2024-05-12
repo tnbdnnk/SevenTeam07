@@ -1,40 +1,39 @@
 import jwt from "jsonwebtoken";
 
-import HttpError from "../helpers/HttpError.js";
+// import HttpError from "../helpers/HttpError.js";
 
-import { findUser } from "../services/authServices.js";
+// import { findUser } from "../services/authServices.js";
 
-const {JWT_SECRET} = process.env;
+// const {JWT_SECRET} = process.env;
 
 const authenticate = async(req, res, next)=> {
-    const {authorization} = req.headers;
-    if(!authorization) {
-        return next(HttpError(401, "Authoriztion header not found"));
+const authorizarionHeader = req.headers.authorization;
+    if (typeof authorizarionHeader === "undefined") {
+    return res.status(401).json({ message: "Authorization header is missing" });
     }
-
-    const [bearer, token] = authorization.split(" ");
-    if(bearer !== "Bearer") {
-        return next(HttpError(401));
+    const [bearer, token] = authorizarionHeader.split(" ", 2);
+    if (bearer !== "Bearer" || !token) {
+    return res
+        .status(401)
+        .json({ message: "Invalid authorization header format" });
     }
-
-    try {
-        const { id } = jwt.verify(token, JWT_SECRET);
-        if (!id) {
-        throw new Error("Invalid token: User ID not found");
+    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+    if (err) {
+        if (err.name === "TokenExpiredError") {
+        return res.status(401).json({ message: "Token expired error." });
         }
-        const user = await findUser({ _id: id });
-        if (!user) {
-        throw new Error("User not found");
-        }
-        if (!user.token) {
-        throw new Error("Invalid token");
-        }
-        req.user = user;
-        next();
-    } catch (error) {
-        console.error("Authentication error:", error);
-        return next(HttpError(401, error.message || "Authentication error"));
+        return res.status(401).json({ message: "Invalid token" });
     }
+    const user = await User.findById(decoded.id);
+    if (!user || !user.token) {
+        return res.status(401).json({ message: "Not authorized" });
+    }
+    req.user = {
+        id: decoded.id,
+        email: decoded.email,
+    };
+    next();
+    });
 }
 
 export default authenticate;
