@@ -5,7 +5,7 @@ const addBoardSchema = Joi.object({
     .required()
     .messages({ "any.required": "missing required Board title" }),
   icons: Joi.string().valid(
-    "#icon-project",
+    "#icon-four-balls",
     "#icon-star",
     "#icon-loading",
     "#icon-puzzle",
@@ -16,7 +16,7 @@ const addBoardSchema = Joi.object({
   ),
   background: Joi.string()
     .valid(
-      "bg0",
+      "noBg",
       "bg1",
       "bg2",
       "bg3",
@@ -33,7 +33,7 @@ const addBoardSchema = Joi.object({
       "bg14",
       "bg15"
     )
-    .default("bg0"),
+    .default("noBg"),
   owner: Joi.string(),
 });
 
