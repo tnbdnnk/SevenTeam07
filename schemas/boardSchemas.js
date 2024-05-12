@@ -41,7 +41,7 @@ const updateBoardSchema = Joi.object({
   title: Joi.string(),
   icons: Joi.string().valid(),
   background: Joi.string().valid(
-    "bg0",
+    "noBg",
     "bg1",
     "bg2",
     "bg3",
