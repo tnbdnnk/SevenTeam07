@@ -37,7 +37,7 @@ const getBoardById = ctrlWrapper(async (req, res) => {
         as: "columns",
       },
     },
-    { $unwind: { path: "$columns", preserveNullAndEmptyArrays: true } },
+    { $unwind: { path: "$columns", preserveNullAndEmptyArrays: false } },
     {
       $lookup: {
         from: "cards",
