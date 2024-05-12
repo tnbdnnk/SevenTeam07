@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-
+import User from "../models/User.js";
 // import HttpError from "../helpers/HttpError.js";
 
 // import { findUser } from "../services/authServices.js";
