@@ -5,7 +5,7 @@ import authControllers from '../controllers/authControllers.js';
 import {
   userSignupSchema,
   userSigninSchema,
-  userEmailSchema,
+  // userEmailSchema,
   userUpdateSchema,
   userThemeUpdateSchema,
   needHelpEmailSchema,

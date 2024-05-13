@@ -307,527 +307,250 @@
         }
         },
         "/api/users/update": {
-        "patch": {
-            "tags": ["Auth"],
-            "summary": "Update user profile",
-            "parameters": [],
-            "security": [
-            {
-                "bearerAuth": []
-            }
-            ],
-            "requestBody": {
-            "required": true,
-            "description": "# Опис параметрів запиту:\n\n**avatar** - file, отримує завантажений файл.\n\n**name** - string, ім'я користувача.\n\n**email** - string, електронна пошта користувача.\n\n**password** - string, зашифрований пароль користувача.\n\nПри зміні email або password видаляється пара токенів (refreshToken та accessToken) у поточного юзера.\n",
-            "content": {
-                "multipart/form-data": {
-                "schema": {
-                    "$ref": "#/components/schemas/UpdateUserProfileRequest"
-                }
-                }
-            }
-            },
-            "responses": {
-            "200": {
-                "description": "User successfully apdated\n \n Опис параметрів відповіді:\n \n JSON-об'єкт, який містить інформацію про оновленого користувача.\n \n **_id** - ObjectId, унікальний ідентифікатор користувача\n \n  **name** - string, ім'я користувача.\n \n **email** - string, електронна пошта користувача.\n \n **avatarURL** - string, пустий рядок поки юзер не має аватара.\n \n **userTheme** - string, тема, обрана користувачем.\n \n **accessToken, refreshToken** - string, токен використовується для зберігання стану авторизації користувача в системі, що дозволяє користувачам здійснювати захищені запити до API. Токен є довільним рядком символів і генерується при кожній новій авторизації користувача.\n",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/UpdateUserProfileResponse"
+            "patch": {
+                "tags": ["Auth"],
+                "summary": "Update user profile",
+                "parameters": [],
+                "security": [
+                    {
+                        "bearerAuth": []
                     }
-                }
-                }
-            },
-            "400": {
-                "description": "Validation error or name, email are already in use",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "type": "object",
-                    "properties": {
-                        "message": {
-                        "type": "string",
-                        "description": "Description of the error."
+                ],
+                "requestBody": {
+                    "required": true,
+                    "description": "# Опис параметрів запиту:\n\n**avatar** - file, отримує завантажений файл.\n\n**name** - string, ім'я користувача.\n\n**email** - string, електронна пошта користувача.\n\n**password** - string, зашифрований пароль користувача.\n\nПри зміні email або password видаляється пара токенів (refreshToken та accessToken) у поточного юзера.\n",
+                    "content": {
+                        "multipart/form-data": {
+                        "schema": {
+                            "$ref": "#/components/schemas/UpdateUserProfileRequest"
+                        }
                         }
                     }
-                    },
-                    "example": {
-                    "message": "Bad request or name, email are already in use"
+                },
+                "responses": {
+                "200": {
+                    "description": "User successfully apdated\n \n Опис параметрів відповіді:\n \n JSON-об'єкт, який містить інформацію про оновленого користувача.\n \n **_id** - ObjectId, унікальний ідентифікатор користувача\n \n  **name** - string, ім'я користувача.\n \n **email** - string, електронна пошта користувача.\n \n **avatarURL** - string, пустий рядок поки юзер не має аватара.\n \n **userTheme** - string, тема, обрана користувачем.\n \n **accessToken, refreshToken** - string, токен використовується для зберігання стану авторизації користувача в системі, що дозволяє користувачам здійснювати захищені запити до API. Токен є довільним рядком символів і генерується при кожній новій авторизації користувача.\n",
+                    "content": {
+                    "application/json": {
+                        "schema": {
+                        "$ref": "#/components/schemas/UpdateUserProfileResponse"
+                        }
                     }
-                }
-                }
-            },
-            "401": {
-                "description": "Bearer auth failed - Якщо запит не містить дійсний токен або токен вже вичерпав свій термін дії, сервер поверне відповідь з кодом статусу HTTP 401",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/ErrorUnautorized"
                     }
-                }
-                }
-            },
-            "500": {
-                "description": "Server Error",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/ErrorServerResponse"
+                },
+                "400": {
+                    "description": "Validation error or name, email are already in use",
+                    "content": {
+                    "application/json": {
+                        "schema": {
+                        "type": "object",
+                        "properties": {
+                            "message": {
+                            "type": "string",
+                            "description": "Description of the error."
+                            }
+                        }
+                        },
+                        "example": {
+                        "message": "Bad request or name, email are already in use"
+                        }
+                    }
+                    }
+                },
+                "401": {
+                    "description": "Bearer auth failed - Якщо запит не містить дійсний токен або токен вже вичерпав свій термін дії, сервер поверне відповідь з кодом статусу HTTP 401",
+                    "content": {
+                    "application/json": {
+                        "schema": {
+                        "$ref": "#/components/schemas/ErrorUnautorized"
+                        }
+                    }
+                    }
+                },
+                "500": {
+                    "description": "Server Error",
+                    "content": {
+                    "application/json": {
+                        "schema": {
+                        "$ref": "#/components/schemas/ErrorServerResponse"
+                        }
+                    }
                     }
                 }
                 }
             }
-            }
-        }
         },
         "/api/users/help": {
-        "post": {
-            "tags": ["Auth"],
-            "summary": "Send request help letter",
-            "parameters": [],
-            "security": [
-            {
-                "bearerAuth": []
-            }
-            ],
-            "requestBody": {
-            "description": "# Опис параметрів запиту:\n\n**email** - string, електронна пошта користувача. **Обов'язковий параметр**\n\n**comment** - string, текст листа користувача. **Обов'язковий параметр**\n",
-            "required": true,
-            "content": {
-                "application/json": {
-                "schema": {
-                    "$ref": "#/components/schemas/SendHelpLetterRequest"
-                }
-                }
-            }
-            },
-            "responses": {
-            "200": {
-                "description": "User help request letter have been successfully sent\n",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/SendHelpLetterResponse"
+            "post": {
+                "tags": ["Auth"],
+                "summary": "Send request help letter",
+                "parameters": [],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "description": "",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SendHelpLetterRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User help request letter have been successfully sent",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SendHelpLetterResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorBadRequest"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Bearer auth failed - Якщо запит не містить дійсний токен або токен вже вичерпав свій термін дії, сервер поверне відповідь з кодом статусу HTTP 401",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorUnautorized"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorServerResponse"
+                                }
+                            }
+                        }
                     }
                 }
-                }
-            },
-            "400": {
-                "description": "Validation error",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/ErrorBadRequest"
-                    }
-                }
-                }
-            },
-            "401": {
-                "description": "Bearer auth failed - Якщо запит не містить дійсний токен або токен вже вичерпав свій термін дії, сервер поверне відповідь з кодом статусу HTTP 401",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/ErrorUnautorized"
-                    }
-                }
-                }
-            },
-            "500": {
-                "description": "Server Error",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/ErrorServerResponse"
-                    }
-                }
-                }
             }
-            }
-        }
         },
         "/api/users/refresh": {
-        "post": {
-            "tags": ["Auth"],
-            "summary": "Refresh user token",
-            "parameters": [],
-            "requestBody": {
-            "required": true,
-            "description": "# Опис параметрів запиту:\n\n**refreshToken** - string, рефреш токен використовується для відновлення токену доступу. **Обов'язковий параметр**\n",
-            "content": {
-                "application/json": {
-                "schema": {
-                    "$ref": "#/components/schemas/RefreshTokenRequest"
-                }
+            "post": {
+                "tags": ["Auth"],
+                "summary": "Refresh user token",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "description": "",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RefreshTokenRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User`s tokens successfully updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RefreshTokenResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorBadRequest"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Cheking is user exists with such refreshToken.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RefreshTokenForbidden"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorServerResponse"
+                                }
+                            }
+                        }
+                    }
                 }
             }
-            },
-            "responses": {
-            "200": {
-                "description": "User`s tokens successfully apdated\n \n Опис параметрів відповіді:\n\n **accessToken, refreshToken** - string, токен використовується для зберігання стану авторизації користувача в системі, що дозволяє користувачам здійснювати захищені запити до API. Токен є довільним рядком символів і генерується при кожній новій авторизації користувача.\n",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/RefreshTokenResponse"
-                    }
-                }
-                }
-            },
-            "400": {
-                "description": "Validation error",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/ErrorBadRequest"
-                    }
-                }
-                }
-            },
-            "403": {
-                "description": "Перевіряється чи існує юзер з таким refreshToken.\nЯкщо не існує, сервер поверне відповідь з кодом статусу HTTP 403\n",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/RefreshTokenForbidden"
-                    }
-                }
-                }
-            },
-            "500": {
-                "description": "Server Error",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/ErrorServerResponse"
-                    }
-                }
-                }
-            }
-            }
-        }
         },
         "/api/boards": {
-        "get": {
-            "tags": ["Boards"],
-            "summary": "Get all user boards",
-            "parameters": [],
-            "security": [
-            {
-                "bearerAuth": []
-            }
-            ],
-            "responses": {
-            "200": {
-                "description": "\nОпис параметрів відповіді:\n\nМасив, елементи якого - це JSON-об'єкти, що містять інформацію про дошки авторизованого користувача.\n\n**_id** - ObjectId, унікальний ідентифікатор дошки\n\n**title** - string, назва дошки.\n\n**icon** - string, іконка дошки.\n\n**background** - string, тег фону дошки.\n\n**backgroundURL** - object; пустий, якщо обране значення background тегу \"no-background\", інакще містить посилання на зображення фону картки \n\n**owner**:\n\n  **_id** - ObjectId, унікальний ідентифікатор користувача, якому належить дошка.\n\n  **name** - string, ім'я користувача.\n\n  **email** - string, електронна пошта користувача.\n\n  **avatarURL** - string, пустий рядок поки юзер не має аватара.\n\n  **userTheme** - string, тема, обрана користувачем.\n",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/GetAllBoardsResponse"
+            "get": {
+                "tags": ["Boards"],
+                "summary": "Get all user boards",
+                "parameters": [],
+                "security": [
+                    {
+                        "bearerAuth": []
                     }
-                }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetAllBoardsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Bearer auth failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorUnautorized"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorServerResponse"
+                                }
+                            }
+                        }
+                    }
                 }
             },
-            "401": {
-                "description": "Bearer auth failed - Якщо запит не містить дійсний токен або токен вже вичерпав свій термін дії, сервер поверне відповідь з кодом статусу HTTP 401",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/ErrorUnautorized"
-                    }
-                }
-                }
-            },
-            "500": {
-                "description": "Server Error",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/ErrorServerResponse"
-                    }
-                }
-                }
-            }
-            }
-        },
-        "post": {
-            "tags": ["Boards"],
-            "summary": "Add new board",
-            "parameters": [],
-            "security": [
-            {
-                "bearerAuth": []
-            }
-            ],
-            "requestBody": {
-            "required": true,
-            "description": "# Опис параметрів запиту:\n\n **title** - string, назва дошки. **Обов'язковий параметр**\n  \n**icon** - string, іконка дошки, значення має бути з масиву [ \"project\", \"star\", \"loading\", \"puzzle-piece\", \"container\", \"lightning\", \"colors\", \"hexagon\" ].\n  \n**background** - string, тег фону дошки, значення має бути з масиву [ \"no-background\",  \"magnolia\", \"starry-sky\", \"sakura\", \"half-moon\", \"palm-leaves\", \"clouds\", \"rocky-beach\", \"violet-circle\", \"full-moon\", \"yacht\", \"baloon\", \"mountains\", \"sea\", \"cappodocia\", \"night-trailer\" ].\n",
-            "content": {
-                "application/json": {
-                "schema": {
-                    "$ref": "#/components/schemas/AddBoardRequest"
-                }
-                }
-            }
-            },
-            "responses": {
-            "201": {
-                "description": "New board created\n\nОпис параметрів відповіді:\n\nJSON-об'єкт, що містить інформацію про нову дошку авторизованого користувача.\n\n**_id** - ObjectId, унікальний ідентифікатор дошки\n\n**title** - string, назва дошки.\n\n**icon** - string, іконка дошки.\n\n**background** - string, тег фону дошки.\n\n**backgroundURL** - object; пустий, якщо обране значення background тегу \"no-background\", інакще містить посилання на зображення фону картки \n\n**owner**:\n\n  **_id** - ObjectId, унікальний ідентифікатор користувача, якому належить дошка.\n\n  **name** - string, ім'я користувача.\n\n  **email** - string, електронна пошта користувача.\n\n  **avatarURL** - string, пустий рядок поки юзер не має аватара.\n\n  **userTheme** - string, тема, обрана користувачем.\n",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/AddBoardResponse"
-                    }
-                }
-                }
-            },
-            "400": {
-                "description": "Validation error",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/ErrorAddBoard"
-                    }
-                }
-                }
-            },
-            "401": {
-                "description": "Bearer auth failed - Якщо запит не містить дійсний токен або токен вже вичерпав свій термін дії, сервер поверне відповідь з кодом статусу HTTP 401",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/ErrorUnautorized"
-                    }
-                }
-                }
-            },
-            "500": {
-                "description": "Server Error",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/ErrorServerResponse"
-                    }
-                }
-                }
-            }
-            }
-        }
-        },
-        "/api/boards/{id}": {
-        "get": {
-            "tags": ["Boards"],
-            "summary": "Get user board by id",
-            "parameters": [
-            {
-                "name": "id",
-                "in": "path",
-                "required": true,
-                "description": "Board's id",
-                "schema": {
-                "type": "string"
-                },
-                "example": "64ef5eedd7daa47c3ec657cb"
-            }
-            ],
-            "security": [
-            {
-                "bearerAuth": []
-            }
-            ],
-            "responses": {
-            "200": {
-                "description": "Board got by id\n\nОпис параметрів відповіді:\n\nJSON-об'єкт, що містить інформацію про дошку авторизованого користувача з усіма колонками та картками у колонках.\n\n**_id** - ObjectId, унікальний ідентифікатор дошки\n\n**title** - string, назва дошки.\n\n**icon** - string, іконка дошки.\n\n**background** - string, тег фону дошки.\n\n**backgroundURL** - object; пустий, якщо обране значення background тегу \"no-background\", інакще містить посилання на зображення фону картки \n\n**owner**:\n\n  **_id** - ObjectId, унікальний ідентифікатор користувача, якому належить дошка.\n\n  **name** - string, ім'я користувача.\n\n  **email** - string, електронна пошта користувача.\n\n  **avatarURL** - string, пустий рядок поки юзер не має аватара.\n\n  **userTheme** - string, тема, обрана користувачем.\n\n**columns** - масив колонок, елементи якого це JSON-об'єкти, що містять інформацію про колонки дошки:\n\n  **_id** - ObjectId, унікальний ідентифікатор колонки, яка належить дошці.\n  \n  **title** -  string, назва колонки.\n  \n**cards** - масив карток, елементи якого це JSON-об'єкти, що містять інформацію про картки колонки:\n    \n  **_id** - ObjectId, унікальний ідентифікатор картки, яка належить колонці.\n  \n  **title** -  string, назва картки.\n    \n  **description** - string, опис картки.\n    \n  **priority** - string, пріоритет картки.\n    \n  **deadline** - string, дедлайн картки.\n",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/GetBoardByIdResponse"
-                    }
-                }
-                }
-            },
-            "401": {
-                "description": "Bearer auth failed - Якщо запит не містить дійсний токен або токен вже вичерпав свій термін дії, сервер поверне відповідь з кодом статусу HTTP 401",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/ErrorUnautorized"
-                    }
-                }
-                }
-            },
-            "404": {
-                "description": "Not found",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/ErrorBoardNotFound"
-                    }
-                }
-                }
-            },
-            "500": {
-                "description": "Server Error",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/ErrorServerResponse"
-                    }
-                }
-                }
-            }
-            }
-        },
-        "delete": {
-            "tags": ["Boards"],
-            "summary": "Delete board",
-            "parameters": [
-            {
-                "name": "id",
-                "in": "path",
-                "required": true,
-                "description": "Board's id",
-                "schema": {
-                "type": "string"
-                },
-                "example": "64ef5eedd7daa47c3ec657cb"
-            }
-            ],
-            "security": [
-            {
-                "bearerAuth": []
-            }
-            ],
-            "responses": {
-            "200": {
-                "description": "Board deleted\nОпис параметрів відповіді:\n\n  **message** - string.\n  \n  **deletedId** - ObjectId, унікальний ідентифікатор видаленої дошки\n",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/DeleteBoardResponse"
-                    }
-                }
-                }
-            },
-            "401": {
-                "description": "Bearer auth failed - Якщо запит не містить дійсний токен або токен вже вичерпав свій термін дії, сервер поверне відповідь з кодом статусу HTTP 401",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/ErrorUnautorized"
-                    }
-                }
-                }
-            },
-            "404": {
-                "description": "Not found",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/ErrorBoardNotFound"
-                    }
-                }
-                }
-            },
-            "500": {
-                "description": "Server Error",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/ErrorServerResponse"
-                    }
-                }
-                }
-            }
-            }
-        },
-        "patch": {
-            "tags": ["Boards"],
-            "summary": "Update board by id",
-            "parameters": [
-            {
-                "name": "id",
-                "in": "path",
-                "required": true,
-                "description": "Board's id",
-                "schema": {
-                "type": "string"
-                },
-                "example": "64ef5eedd7daa47c3ec657cb"
-            }
-            ],
-            "security": [
-            {
-                "bearerAuth": []
-            }
-            ],
-            "requestBody": {
-            "description": "# Опис параметрів запиту:\n\n **title** - string, назва дошки. \n  \n**icon** - string, іконка дошки, значення має бути з масиву [ \"project\", \"star\", \"loading\", \"puzzle-piece\", \"container\", \"lightning\", \"colors\", \"hexagon\" ].\n  \n**background** - string, тег фону дошки, значення має бути з масиву [ \"no-background\",  \"magnolia\", \"starry-sky\", \"sakura\", \"half-moon\", \"palm-leaves\", \"clouds\", \"rocky-beach\", \"violet-circle\", \"full-moon\", \"yacht\", \"baloon\", \"mountains\", \"sea\", \"cappodocia\", \"night-trailer\" ].\n",
-            "required": true,
-            "content": {
-                "application/json": {
-                "schema": {
-                    "$ref": "#/components/schemas/UpdateBoardRequest"
-                }
-                }
-            }
-            },
-            "responses": {
-            "200": {
-                "description": "Update board successful\n\nОпис параметрів відповіді:\n\nJSON-об'єкт, що містить інформацію про оновлену дошку авторизованого користувача.\n\n**_id** - ObjectId, унікальний ідентифікатор дошки\n\n**title** - string, назва дошки.\n\n**icon** - string, іконка дошки.\n\n**background** - string, тег фону дошки.\n\n**backgroundURL** - object; пустий, якщо обране значення background тегу \"no-background\", інакще містить посилання на зображення фону картки \n\n**owner** - ObjectId, унікальний ідентифікатор користувача, якому належить дошка.\n",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/UpdateBoardResponse"
-                    }
-                }
-                }
-            },
-            "400": {
-                "description": "Bad Request",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/ErrorBoardUpdate"
-                    }
-                }
-                }
-            },
-            "401": {
-                "description": "Bearer auth failed - Якщо запит не містить дійсний токен або токен вже вичерпав свій термін дії, сервер поверне відповідь з кодом статусу HTTP 401",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/ErrorUnautorized"
-                    }
-                }
-                }
-            },
-            "404": {
-                "description": "Not found",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/ErrorBoardNotFound"
-                    }
-                }
-                }
-            },
-            "500": {
-                "description": "Server Error",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/ErrorServerResponse"
-                    }
-                }
-                }
-            }
-            }
-        }
-        },
-        "/api/columns/{id}": {
             "post": {
-                "tags": ["Columns"],
-                "summary": "Add new column",
+                "tags": ["Boards"],
+                "summary": "Add new board",
                 "parameters": [],
                 "security": [
                 {
@@ -835,23 +558,23 @@
                 }
                 ],
                 "requestBody": {
-                "description": "# Опис параметрів запиту:\n\n**title** - string, назва колонки. **Обов'язковий параметр**\n \n**board** - ObjectId, унікальний ідентифікатор дошки, до якої належить нова колонка. **Обов'язковий параметр**\n",
                 "required": true,
+                "description": "# Опис параметрів запиту:\n\n **title** - string, назва дошки. **Обов'язковий параметр**\n  \n**icon** - string, іконка дошки, значення має бути з масиву [ \"project\", \"star\", \"loading\", \"puzzle-piece\", \"container\", \"lightning\", \"colors\", \"hexagon\" ].\n  \n**background** - string, тег фону дошки, значення має бути з масиву [ \"no-background\",  \"magnolia\", \"starry-sky\", \"sakura\", \"half-moon\", \"palm-leaves\", \"clouds\", \"rocky-beach\", \"violet-circle\", \"full-moon\", \"yacht\", \"baloon\", \"mountains\", \"sea\", \"cappodocia\", \"night-trailer\" ].\n",
                 "content": {
                     "application/json": {
                     "schema": {
-                        "$ref": "#/components/schemas/AddColumnRequest"
+                        "$ref": "#/components/schemas/AddBoardRequest"
                     }
                     }
                 }
                 },
                 "responses": {
                 "201": {
-                    "description": "New column created\n\nОпис параметрів відповіді:\n\n  **_id** - ObjectId, унікальний ідентифікатор колонки.\n  \n  **title** - string, назва колонки.\n\n**board** - ObjectId, унікальний ідентифікатор дошки, до якої належить нова колонка.\n",
+                    "description": "New board created\n\nОпис параметрів відповіді:\n\nJSON-об'єкт, що містить інформацію про нову дошку авторизованого користувача.\n\n**_id** - ObjectId, унікальний ідентифікатор дошки\n\n**title** - string, назва дошки.\n\n**icon** - string, іконка дошки.\n\n**background** - string, тег фону дошки.\n\n**backgroundURL** - object; пустий, якщо обране значення background тегу \"no-background\", інакще містить посилання на зображення фону картки \n\n**owner**:\n\n  **_id** - ObjectId, унікальний ідентифікатор користувача, якому належить дошка.\n\n  **name** - string, ім'я користувача.\n\n  **email** - string, електронна пошта користувача.\n\n  **avatarURL** - string, пустий рядок поки юзер не має аватара.\n\n  **userTheme** - string, тема, обрана користувачем.\n",
                     "content": {
                     "application/json": {
                         "schema": {
-                        "$ref": "#/components/schemas/AddColumnResponse"
+                        "$ref": "#/components/schemas/AddBoardResponse"
                         }
                     }
                     }
@@ -861,7 +584,7 @@
                     "content": {
                     "application/json": {
                         "schema": {
-                        "$ref": "#/components/schemas/BadRequestColumn"
+                        "$ref": "#/components/schemas/ErrorAddBoard"
                         }
                     }
                     }
@@ -876,26 +599,6 @@
                     }
                     }
                 },
-                "404": {
-                    "description": "Board for adding column not found",
-                    "content": {
-                    "application/json": {
-                        "schema": {
-                        "$ref": "#/components/schemas/ErrorBoardNotFound"
-                        }
-                    }
-                    }
-                },
-                "409": {
-                    "description": "Conflict",
-                    "content": {
-                    "application/json": {
-                        "schema": {
-                        "$ref": "#/components/schemas/ErrorConflictColumn"
-                        }
-                    }
-                    }
-                },
                 "500": {
                     "description": "Server Error",
                     "content": {
@@ -906,301 +609,598 @@
                     }
                     }
                 }
+                }
+            }
+        },
+        "/api/boards/{id}": {
+            "get": {
+                "tags": ["Boards"],
+                "summary": "Get user board by id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Board's id",
+                        "schema": {
+                        "type": "string"
+                        },
+                        "example": "64ef5eedd7daa47c3ec657cb"
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Board got by id",
+                        "content": {
+                        "application/json": {
+                            "schema": {
+                            "$ref": "#/components/schemas/GetBoardByIdResponse"
+                            }
+                        }
+                        }
+                    },
+                    "401": {
+                        "description": "Bearer auth failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorUnautorized"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorBoardNotFound"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorServerResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Boards"],
+                "summary": "Delete board",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Board's id",
+                        "schema": {
+                        "type": "string"
+                        },
+                        "example": "64ef5eedd7daa47c3ec657cb"
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Board deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeleteBoardResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Bearer auth failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorUnautorized"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorBoardNotFound"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                "$ref": "#/components/schemas/ErrorServerResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": ["Boards"],
+                "summary": "Update board by id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Board's id",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "64ef5eedd7daa47c3ec657cb"
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "description": "",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateBoardRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Update board successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpdateBoardResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorBoardUpdate"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Bearer auth failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorUnautorized"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                        "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorBoardNotFound"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "content": {
+                        "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorServerResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/columns/{id}": {
+            "post": {
+                "tags": ["Columns"],
+                "summary": "Add new column",
+                "parameters": [],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "description": "",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AddColumnRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "New column created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AddColumnResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestColumn"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Bearer auth failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorUnautorized"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Board for adding column not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorBoardNotFound"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorConflictColumn"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorServerResponse"
+                                }
+                            }
+                        }
+                    }
                 }
             },
             "delete": {
                 "tags": ["Columns"],
                 "summary": "Delete column",
                 "parameters": [
-                {
-                    "name": "id",
-                    "in": "path",
-                    "required": true,
-                    "description": "Column's id",
-                    "schema": {
-                    "type": "string"
-                    },
-                    "example": "64d360ea78fe376e4981199f"
-                }
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Column's id",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "64d360ea78fe376e4981199f"
+                    }
                 ],
                 "security": [
-                {
-                    "bearerAuth": []
-                }
+                    {
+                        "bearerAuth": []
+                    }
                 ],
                 "responses": {
                 "200": {
-                    "description": "Column deleted\nОпис параметрів відповіді:\n\n  **message** - string.\n  \n  **deletedId** - ObjectId, унікальний ідентифікатор видаленої колонки.\n",
-                    "content": {
-                    "application/json": {
-                        "schema": {
-                        "$ref": "#/components/schemas/DeleteColumnResponse"
+                        "description": "Column deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeleteColumnResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Bearer auth failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorUnautorized"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundColumn"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorServerResponse"
+                                }
+                            }
                         }
                     }
-                    }
-                },
-                "401": {
-                    "description": "Bearer auth failed - Якщо запит не містить дійсний токен або токен вже вичерпав свій термін дії, сервер поверне відповідь з кодом статусу HTTP 401",
-                    "content": {
-                    "application/json": {
-                        "schema": {
-                        "$ref": "#/components/schemas/ErrorUnautorized"
-                        }
-                    }
-                    }
-                },
-                "404": {
-                    "description": "Not found",
-                    "content": {
-                    "application/json": {
-                        "schema": {
-                        "$ref": "#/components/schemas/NotFoundColumn"
-                        }
-                    }
-                    }
-                },
-                "500": {
-                    "description": "Server Error",
-                    "content": {
-                    "application/json": {
-                        "schema": {
-                        "$ref": "#/components/schemas/ErrorServerResponse"
-                        }
-                    }
-                    }
-                }
                 }
             },
             "put": {
                 "tags": ["Columns"],
                 "summary": "Update column by id",
                 "parameters": [
-                {
-                    "name": "id",
-                    "in": "path",
-                    "required": true,
-                    "description": "Column's id",
-                    "schema": {
-                    "type": "string"
-                    },
-                    "example": "exampleId"
-                }
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Column's id",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "exampleId"
+                    }
                 ],
                 "security": [
-                {
-                    "bearerAuth": []
-                }
+                    {
+                        "bearerAuth": []
+                    }
                 ],
                 "requestBody": {
-                "description": "# Опис параметрів запиту:\n\n**title** - string, назва колонки. **Обов'язковий параметр**\n \n**board** - ObjectId, унікальний ідентифікатор дошки, до якої належить оновлена колонка. **Обов'язковий параметр**\n",
-                "required": true,
-                "content": {
-                    "application/json": {
-                    "schema": {
-                        "$ref": "#/components/schemas/UpdateColumnRequest"
+                    "description": "",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateColumnRequest"
+                            }
+                        }
                     }
-                    }
-                }
                 },
                 "responses": {
-                "200": {
-                    "description": "Сolumn updated\n\nОпис параметрів відповіді:\n\n  **_id** - ObjectId, унікальний ідентифікатор колонки.\n  \n  **title** - string, назва колонки.\n\n**board** - ObjectId, унікальний ідентифікатор дошки, до якої належить оновлена колонка.\n",
-                    "content": {
-                    "application/json": {
-                        "schema": {
-                        "$ref": "#/components/schemas/UpdateColumnResponse"
+                    "200": {
+                        "description": "Сolumn updated",
+                        "content": {
+                        "application/json": {
+                            "schema": {
+                            "$ref": "#/components/schemas/UpdateColumnResponse"
+                            }
+                        }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                        "application/json": {
+                            "schema": {
+                            "$ref": "#/components/schemas/BadRequestColumn"
+                            }
+                        }
+                        }
+                    },
+                    "401": {
+                        "description": "Bearer auth failed",
+                        "content": {
+                        "application/json": {
+                            "schema": {
+                            "$ref": "#/components/schemas/ErrorUnautorized"
+                            }
+                        }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                        "application/json": {
+                            "schema": {
+                            "$ref": "#/components/schemas/UpdateNotFoundColumn"
+                            }
+                        }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "content": {
+                        "application/json": {
+                            "schema": {
+                            "$ref": "#/components/schemas/ErrorConflictColumn"
+                            }
+                        }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "content": {
+                        "application/json": {
+                            "schema": {
+                            "$ref": "#/components/schemas/ErrorServerResponse"
+                            }
+                        }
                         }
                     }
-                    }
-                },
-                "400": {
-                    "description": "Validation error",
-                    "content": {
-                    "application/json": {
-                        "schema": {
-                        "$ref": "#/components/schemas/BadRequestColumn"
-                        }
-                    }
-                    }
-                },
-                "401": {
-                    "description": "Bearer auth failed - Якщо запит не містить дійсний токен або токен вже вичерпав свій термін дії, сервер поверне відповідь з кодом статусу HTTP 401",
-                    "content": {
-                    "application/json": {
-                        "schema": {
-                        "$ref": "#/components/schemas/ErrorUnautorized"
-                        }
-                    }
-                    }
-                },
-                "404": {
-                    "description": "Not found",
-                    "content": {
-                    "application/json": {
-                        "schema": {
-                        "$ref": "#/components/schemas/UpdateNotFoundColumn"
-                        }
-                    }
-                    }
-                },
-                "409": {
-                    "description": "Conflict",
-                    "content": {
-                    "application/json": {
-                        "schema": {
-                        "$ref": "#/components/schemas/ErrorConflictColumn"
-                        }
-                    }
-                    }
-                },
-                "500": {
-                    "description": "Server Error",
-                    "content": {
-                    "application/json": {
-                        "schema": {
-                        "$ref": "#/components/schemas/ErrorServerResponse"
-                        }
-                    }
-                    }
-                }
                 }
             }
         },
         "/api/cards": {
-        "post": {
-            "tags": ["Cards"],
-            "summary": "Add new cards",
-            "parameters": [],
-            "security": [
-            {
-                "bearerAuth": []
+            "post": {
+                "tags": ["Cards"],
+                "summary": "Add new cards",
+                "parameters": [],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                "description": "",
+                "required": true,
+                "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AddCardsRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                "201": {
+                        "description": "New card created",
+                        "content": {
+                        "application/json": {
+                            "schema": {
+                            "$ref": "#/components/schemas/AddCardsResponse"
+                            }
+                        }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                        "application/json": {
+                            "schema": {
+                            "$ref": "#/components/schemas/BadRequestCard"
+                            }
+                        }
+                        }
+                    },
+                    "401": {
+                        "description": "Bearer auth failed",
+                        "content": {
+                        "application/json": {
+                            "schema": {
+                            "$ref": "#/components/schemas/ErrorUnautorized"
+                            }
+                        }
+                        }
+                    },
+                    "404": {
+                        "description": "Column for adding card not found",
+                        "content": {
+                        "application/json": {
+                            "schema": {
+                            "$ref": "#/components/schemas/NotFoundColumn"
+                            }
+                        }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorServerResponse"
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            ],
-            "requestBody": {
-            "description": "# Опис параметрів запиту:\n\n**title** - string, назва картки. **Обов'язковий параметр**\n \n**description** - string, опис картки.\n      \n**priority** - string, пріоритет картки, має бути з масиву [\"without priority\", \"low\", \"medium\", \"high\"].\n      \n**deadline** - string, дедлайн картки, дата у форматі \"DD-MM-YYYY\".\n    \n**column** - ObjectId, унікальний ідентифікатор колонки, до якої належить нова картка. **Обов'язковий параметр**\n",
-            "required": true,
-            "content": {
-                "application/json": {
-                "schema": {
-                    "$ref": "#/components/schemas/AddCardsRequest"
-                }
-                }
-            }
-            },
-            "responses": {
-            "201": {
-                "description": "New card created\n\n Опис параметрів відповіді:\n \n **_id** - ObjectId, унікальний ідентифікатор картки.\n\n**title** - string, назва картки.\n \n**description** - string, опис картки.\n      \n**priority** - string, пріоритет картки.\n      \n**deadline** - string, дедлайн картки.\n    \n**column** - ObjectId, унікальний ідентифікатор колонки, до якої належить нова картка.\n",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/AddCardsResponse"
-                    }
-                }
-                }
-            },
-            "400": {
-                "description": "Validation error",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/BadRequestCard"
-                    }
-                }
-                }
-            },
-            "401": {
-                "description": "Bearer auth failed - Якщо запит не містить дійсний токен або токен вже вичерпав свій термін дії, сервер поверне відповідь з кодом статусу HTTP 401",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/ErrorUnautorized"
-                    }
-                }
-                }
-            },
-            "404": {
-                "description": "Column for adding card not found",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/NotFoundColumn"
-                    }
-                }
-                }
-            },
-            "500": {
-                "description": "Server Error",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/ErrorServerResponse"
-                    }
-                }
-                }
-            }
-            }
-        }
         },
         "/api/cards{id}": {
         "delete": {
             "tags": ["Cards"],
             "summary": "Delete cards",
             "parameters": [
-            {
-                "name": "id",
-                "in": "path",
-                "required": true,
-                "description": "Cards's id",
-                "schema": {
-                "type": "string"
-                },
-                "example": "64ec7c4dbab1cb55a780a0d4"
-            }
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "Cards's id",
+                    "schema": {
+                        "type": "string"
+                    },
+                    "example": "64ec7c4dbab1cb55a780a0d4"
+                }
             ],
             "security": [
-            {
-                "bearerAuth": []
-            }
+                {
+                    "bearerAuth": []
+                }
             ],
             "responses": {
             "200": {
-                "description": "Card deleted\n\n Опис параметрів відповіді:\n \n **_id** - ObjectId, унікальний ідентифікатор картки.\n\n**title** - string, назва картки.\n \n**description** - string, опис картки.\n      \n**priority** - string, пріоритет картки.\n      \n**deadline** - string, дедлайн картки.\n    \n**column** - ObjectId, унікальний ідентифікатор колонки, до якої належить видалена картка.\n",
+                "description": "Card deleted",
                 "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/AddCardsResponse"
+                    "application/json": {
+                        "schema": {
+                        "$ref": "#/components/schemas/AddCardsResponse"
+                        }
                     }
-                }
                 }
             },
             "401": {
-                "description": "Bearer auth failed - Якщо запит не містить дійсний токен або токен вже вичерпав свій термін дії, сервер поверне відповідь з кодом статусу HTTP 401",
+                "description": "Bearer auth failed",
                 "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/ErrorUnautorized"
+                    "application/json": {
+                        "schema": {
+                        "$ref": "#/components/schemas/ErrorUnautorized"
+                        }
                     }
-                }
                 }
             },
             "404": {
                 "description": "Not found",
                 "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/NotFoundCard"
+                    "application/json": {
+                        "schema": {
+                        "$ref": "#/components/schemas/NotFoundCard"
+                        }
                     }
-                }
                 }
             },
             "500": {
                 "description": "Server Error",
                 "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/ErrorServerResponse"
+                    "application/json": {
+                        "schema": {
+                        "$ref": "#/components/schemas/ErrorServerResponse"
+                        }
                     }
-                }
                 }
             }
             }
@@ -1209,42 +1209,42 @@
             "tags": ["Cards"],
             "summary": "Update cards by id",
             "parameters": [
-            {
-                "name": "id",
-                "in": "path",
-                "required": true,
-                "description": "Card's id",
-                "schema": {
-                "type": "string"
-                },
-                "example": "64ec7c4dbab1cb55a780a0d4"
-            }
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "Card's id",
+                    "schema": {
+                    "type": "string"
+                    },
+                    "example": "64ec7c4dbab1cb55a780a0d4"
+                }
             ],
             "security": [
-            {
-                "bearerAuth": []
-            }
+                {
+                    "bearerAuth": []
+                }
             ],
             "requestBody": {
-            "description": "# Опис параметрів запиту:\n\n**title** - string, назва картки. \n \n**description** - string, опис картки.\n      \n**priority** - string, пріоритет картки, має бути з масиву [\"without priority\", \"low\", \"medium\", \"high\"].\n      \n**deadline** - string, дедлайн картки, дата у форматі \"DD-MM-YYYY\".\n",
-            "required": true,
-            "content": {
-                "application/json": {
-                "schema": {
-                    "$ref": "#/components/schemas/UpdateCardRequest"
+                "description": "",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/UpdateCardRequest"
+                        }
+                    }
                 }
-                }
-            }
             },
             "responses": {
             "200": {
-                "description": "Card updated\n\n Опис параметрів відповіді:\n \n **_id** - ObjectId, унікальний ідентифікатор картки.\n\n**title** - string, назва картки.\n \n**description** - string, опис картки.\n      \n**priority** - string, пріоритет картки.\n      \n**deadline** - string, дедлайн картки.\n    \n**column** - ObjectId, унікальний ідентифікатор колонки, до якої належить оновлена картка.\n",
+                "description": "Card updated",
                 "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/UpdateCardResponse"
+                    "application/json": {
+                        "schema": {
+                        "$ref": "#/components/schemas/UpdateCardResponse"
+                        }
                     }
-                }
                 }
             },
             "400": {
@@ -1258,7 +1258,7 @@
                 }
             },
             "401": {
-                "description": "Bearer auth failed - Якщо запит не містить дійсний токен або токен вже вичерпав свій термін дії, сервер поверне відповідь з кодом статусу HTTP 401",
+                "description": "Bearer auth failed",
                 "content": {
                 "application/json": {
                     "schema": {
@@ -1291,40 +1291,40 @@
         }
         },
         "/api/cards{id}/transport": {
-        "patch": {
-            "tags": ["Cards"],
-            "summary": "Transport card between columns",
-            "parameters": [
-            {
-                "name": "id",
-                "in": "path",
+            "patch": {
+                "tags": ["Cards"],
+                "summary": "Transport card between columns",
+                "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "Cards's id",
+                    "schema": {
+                        "type": "string"
+                    },
+                    "example": "64ec7c4dbab1cb55a780a0d4"
+                }
+                ],
+                "security": [
+                {
+                    "bearerAuth": []
+                }
+                ],
+                "requestBody": {
+                "description": "",
                 "required": true,
-                "description": "Cards's id",
-                "schema": {
-                "type": "string"
-                },
-                "example": "64ec7c4dbab1cb55a780a0d4"
-            }
-            ],
-            "security": [
-            {
-                "bearerAuth": []
-            }
-            ],
-            "requestBody": {
-            "description": "# Опис параметрів запиту:\n\n**source** - ObjectId, унікальний ідентифікатор колонки, з якої переноситься картка. **Обов'язковий параметр**\n\n**destination** - ObjectId, унікальний ідентифікатор колонки, на яку переноситься картка. **Обов'язковий параметр**\n",
-            "required": true,
-            "content": {
-                "application/json": {
-                "schema": {
-                    "$ref": "#/components/schemas/TransportCardRequest"
+                "content": {
+                    "application/json": {
+                    "schema": {
+                        "$ref": "#/components/schemas/TransportCardRequest"
+                    }
+                    }
                 }
-                }
-            }
             },
             "responses": {
             "200": {
-                "description": "Card transported\n\n Опис параметрів відповіді:\n \n **_id** - ObjectId, унікальний ідентифікатор картки.\n\n**title** - string, назва картки.\n \n**description** - string, опис картки.\n      \n**priority** - string, пріоритет картки.\n      \n**deadline** - string, дедлайн картки.\n    \n**column** - ObjectId, унікальний ідентифікатор колонки, до якої перенесено картку.\n",
+                "description": "Card transported",
                 "content": {
                 "application/json": {
                     "schema": {
@@ -1344,7 +1344,7 @@
                 }
             },
             "401": {
-                "description": "Bearer auth failed - Якщо запит не містить дійсний токен або токен вже вичерпав свій термін дії, сервер поверне відповідь з кодом статусу HTTP 401",
+                "description": "Bearer auth failed",
                 "content": {
                 "application/json": {
                     "schema": {
