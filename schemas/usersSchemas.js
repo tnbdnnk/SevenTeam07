@@ -26,11 +26,8 @@ export const userEmailSchema = Joi.object({
 });
 
 export const needHelpEmailSchema = Joi.object({
-  formData: Joi.object({
-    email: Joi.string().pattern(emailRegepxp).required(),
-    text: Joi.string().required(),
-  }).required(),
-  token: Joi.string().required(),
+  email: Joi.string().pattern(emailRegepxp).required(),
+  text: Joi.string().required(),
 });
 
 export const userUpdateSchema = Joi.object({
