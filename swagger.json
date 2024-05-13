@@ -1410,9 +1410,22 @@
             "UserSignupResponse": {
                 "type": "object",
                 "properties": {
+                    "accessToken": {
+                        "type": "string",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWM3YzRkYmFiMWNiNTVhNzgwYTBkNCIsImlhdCI6MTY5MzkxMzcyMywiZXhwIjoxNjkzOTEzODQzfQ.idCG_1wBTso34eHr54IgV_kB6VTwPQ_5VT_XbUOzP_s"
+                    },
+                    "refreshToken": {
+                        "type": "string",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWM3YzRkYmFiMWNiNTVhNzgwYTBkNCIsImlhdCI6MTY5MzkxMzcyMywiZXhwIjoxNjkzOTEzODQzfQ.idCG_1wBTso34eHr54IgV_kB6VTwPQ_5VT_XbUOzP_s"
+                    },
                     "user": {
                         "type": "object",
                         "properties": {
+                            "_id": {
+                                "type": "string",
+                                "description": "user's id in database",
+                                "example": "64ec7c4dbab1cb55a780a0d4"
+                            },
                             "name": {
                                 "type": "string",
                                 "description": "user's name",
@@ -1428,7 +1441,7 @@
                                 "example": "",
                                 "description": "no user's avatar yet"
                             },
-                            "theme": {
+                            "userTheme": {
                                 "type": "string",
                                 "description": "user's theme",
                                 "example": "light"
