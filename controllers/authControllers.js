@@ -15,7 +15,7 @@ import Jimp from 'jimp';
 import sendEmail from '../helpers/sendEmail.js';
 import cloudinary from '../helpers/cloudinary.js';
 
-const { JWT_SECRET, PROJECT_URL } = process.env;
+const { JWT_SECRET } = process.env;
 
 const signup = async (req, res) => {
   const { name, email, password } = req.body;
@@ -163,6 +163,7 @@ const signout = async (req, res) => {
 
     })
 }
+
 const updateUser = async (req, res) => {
   const { _id: id } = req.user;
   console.log(req.body);
