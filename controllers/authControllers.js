@@ -48,8 +48,8 @@ const signup = async (req, res) => {
     user: {
       name: newUser.name,
       email: newUser.email,
-      // avatarURL: newUser.avatarURL,
-      // theme: newUser.theme,
+      avatarURL: newUser.avatarURL,
+      theme: newUser.theme,
     },
   });
 };
