@@ -32,8 +32,9 @@ const signup = async (req, res) => {
     password: hashPassword,
     // verificationToken,
   });
+  const payload = { id: newUser._id };
   const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '48h' });
-  await authServices.updateUser({ _id: id }, { token });
+  await authServices.updateUser({ _id: newUser._id }, { token });
 
   // const verifyEmail = {
   //   to: email,
