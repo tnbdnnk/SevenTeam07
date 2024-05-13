@@ -1410,22 +1410,9 @@
             "UserSignupResponse": {
                 "type": "object",
                 "properties": {
-                    "accessToken": {
-                        "type": "string",
-                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWM3YzRkYmFiMWNiNTVhNzgwYTBkNCIsImlhdCI6MTY5MzkxMzcyMywiZXhwIjoxNjkzOTEzODQzfQ.idCG_1wBTso34eHr54IgV_kB6VTwPQ_5VT_XbUOzP_s"
-                    },
-                    "refreshToken": {
-                        "type": "string",
-                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWM3YzRkYmFiMWNiNTVhNzgwYTBkNCIsImlhdCI6MTY5MzkxMzcyMywiZXhwIjoxNjkzOTEzODQzfQ.idCG_1wBTso34eHr54IgV_kB6VTwPQ_5VT_XbUOzP_s"
-                    },
                     "user": {
                         "type": "object",
                         "properties": {
-                            "_id": {
-                                "type": "string",
-                                "description": "user's id in database",
-                                "example": "64ec7c4dbab1cb55a780a0d4"
-                            },
                             "name": {
                                 "type": "string",
                                 "description": "user's name",
@@ -1441,7 +1428,7 @@
                                 "example": "",
                                 "description": "no user's avatar yet"
                             },
-                            "userTheme": {
+                            "theme": {
                                 "type": "string",
                                 "description": "user's theme",
                                 "example": "light"
@@ -1469,22 +1456,9 @@
             "UserLoginResponse": {
                 "type": "object",
                 "properties": {
-                    "accessToken": {
-                        "type": "string",
-                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWM3YzRkYmFiMWNiNTVhNzgwYTBkNCIsImlhdCI6MTY5MzkxMzcyMywiZXhwIjoxNjkzOTEzODQzfQ.idCG_1wBTso34eHr54IgV_kB6VTwPQ_5VT_XbUOzP_s"
-                    },
-                    "refreshToken": {
-                        "type": "string",
-                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWM3YzRkYmFiMWNiNTVhNzgwYTBkNCIsImlhdCI6MTY5MzkxMzcyMywiZXhwIjoxNjkzOTEzODQzfQ.idCG_1wBTso34eHr54IgV_kB6VTwPQ_5VT_XbUOzP_s"
-                    },
                     "user": {
                         "type": "object",
                         "properties": {
-                            "_id": {
-                                "type": "string",
-                                "description": "user's id in database",
-                                "example": "64ec7c4dbab1cb55a780a0d4"
-                            },
                             "name": {
                                 "type": "string",
                                 "description": "user's name",
@@ -1500,7 +1474,7 @@
                                 "example": "https://exampleURL",
                                 "description": "link to user's avatar or empty string if user have no avatar yet"
                             },
-                            "userTheme": {
+                            "theme": {
                                 "type": "string",
                                 "description": "user's theme",
                                 "example": "light"
@@ -1611,7 +1585,7 @@
                     "message": {
                         "type": "string",
                         "description": "Success letter",
-                        "example": "Reply email has been sent"
+                        "example": "Need Help email has been sent"
                     }
                 }
             },

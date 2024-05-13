@@ -123,34 +123,34 @@ const singin = async (req, res) => {
   });
 };
 
-const getCurrent = async (req, res) => {
-    const { email } = req.user;
-    if(!email) {
-        throw HttpError(401, "Not authorized");
-    }
-    res.json({
-        email,
-        avatarURL, 
-        theme,
-    })
-}
-
-// const getCurrent = async (req, res, next) => {
-//   try {
-//     const { email, avatarURL, theme } = req.user;
-//     if (!email) {
-//       throw new Error("User email not found");
+// const getCurrent = async (req, res) => {
+//     const { email } = req.user;
+//     if(!email) {
+//         throw HttpError(401, "Not authorized");
 //     }
 //     res.json({
-//       email,
-//       avatarURL,
-//       theme,
-//     });
-//   } catch (error) {
-//     console.error("Error getting current user:", error);
-//     return next(HttpError(401, error.message || "Error getting current user"));
-//   }
-// };
+//         email,
+//         avatarURL, 
+//         theme,
+//     })
+// }
+
+const getCurrent = async (req, res, next) => {
+  try {
+    const { email, avatarURL, theme } = req.user;
+    if (!email) {
+      throw new Error("User email not found");
+    }
+    res.json({
+      email,
+      avatarURL,
+      theme,
+    });
+  } catch (error) {
+    console.error("Error getting current user:", error);
+    return next(HttpError(401, error.message || "Error getting current user"));
+  }
+};
 
 const signout = async (req, res) => {
     const { _id } = req.user;
@@ -220,7 +220,7 @@ const sendNeedHelpEmail = async (req, res, next) => {
 
   await sendEmail(needHelpEmail);
   res.status(200).json({
-    message: 'Need Help email sent',
+    message: 'Need Help email has been sent',
   });
 };
 
