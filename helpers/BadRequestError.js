@@ -1,4 +1,4 @@
-import HttpError from "./HttpError";
+import HttpError from "./HttpError.js";
 
 export const BadRequestError = (error, req, res, next) => {
     if (error) {
