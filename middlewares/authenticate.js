@@ -7,30 +7,32 @@ import { findUser } from "../services/authServices.js";
 const {JWT_SECRET} = process.env;
 
 const authenticate = async(req, res, next)=> {
-    const {authorization} = req.headers;
-    if(!authorization) {
-        return next(HttpError(401, "Authoriztion header not found"));
-    }
+    const { authorization = "" } = req.headers;
+
 
     const [bearer, token] = authorization.split(" ");
-    if(bearer !== "Bearer") {
-        return next(HttpError(401));
+    if(bearer !== "Bearer" || !token) {
+        next(HttpError(401));
     }
 
     try {
-        const {id} = jwt.verify(token, JWT_SECRET);
-        const user = await findUser({_id: id});
-        if(!user) {
-            return next(HttpError(401, "User not found"));
-        }
-        if(!user.token) {
-            return next(HttpError(401, "Token invalid"));
-        }
+        const isValidToken = jwt.verify(token, JWT_SECRET);
+        const user = await findUser({_id: isValidToken.id});
+        if (!user || token !== user.accessToken || !user.accessToken)
+            throw HttpError(401);
         req.user = user;
         next();
     }
     catch(error) {
-        next(HttpError(401, error.message))
+        if (
+            error.message === "invalid signature" ||
+            error.message === "jwt expired" ||
+            error.message === "jwt must be provided"
+        ) {
+            error.status = 401;
+            error.message = "Unauthorized";
+        }
+        next(HttpError(401));
     }
 }
 

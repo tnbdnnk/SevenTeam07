@@ -3,6 +3,7 @@ import { Schema, model } from 'mongoose';
 import { handleSaveError, setUpdateSetting } from './hooks.js';
 
 import { emailRegepxp, themesList } from '../constants/user-constants.js';
+import { signToken } from '../helpers/signToken.js';
 
 const userSchema = new Schema(
   {
@@ -29,7 +30,7 @@ const userSchema = new Schema(
       enum: themesList,
       default: 'light',
     },
-    token: {
+    accessToken: {
       type: String,
       default: null,
     },
@@ -43,6 +44,8 @@ const userSchema = new Schema(
   },
   { versionKey: false, timestamps: true }
 );
+
+userSchema.methods.signToken = signToken;
 
 userSchema.post('save', handleSaveError);
 
