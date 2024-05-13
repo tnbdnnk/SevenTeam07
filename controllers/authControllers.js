@@ -137,11 +137,12 @@ const singin = async (req, res) => {
 
 const getCurrent = async (req, res, next) => {
   try {
-    const { email, avatarURL, theme } = req.user;
+    const { name, email, avatarURL, theme } = req.user;
     if (!email) {
       throw new Error("User email not found");
     }
     res.json({
+      name,
       email,
       avatarURL,
       theme,
