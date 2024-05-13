@@ -210,6 +210,14 @@ const sendNeedHelpEmail = async (req, res, next) => {
   const { formData } = req.body;
   const { email, text} = formData;
   const userEmail = req.user.email;
+
+  if (!formData) {
+    return next(HttpError(400, 'formData field is missing'));
+  }
+
+  if (!email || !text) {
+    return next(HttpError(400, 'email and text fields are required in formData'));
+  }
   
   if (!userEmail) {
     return next(HttpError(404, 'User not found'));
