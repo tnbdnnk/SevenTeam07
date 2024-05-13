@@ -1,26 +1,35 @@
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+// import jwt from 'jsonwebtoken';
 
 import * as authServices from '../services/authServices.js';
 
 import ctrlWrapper from '../decorators/ctrlWrapper.js';
 
 import HttpError from '../helpers/HttpError.js';
-import { nanoid } from 'nanoid';
+// import { nanoid } from 'nanoid';
 import fs from 'fs/promises';
-import path from 'path';
-import { token } from 'morgan';
-import User from '../models/User.js';
-import Jimp from 'jimp';
+// import path from 'path';
+// import { token } from 'morgan';
+import * as User from '../models/User.js';
+// import Jimp from 'jimp';
 import sendEmail from '../helpers/sendEmail.js';
 import cloudinary from '../helpers/cloudinary.js';
 
-const { JWT_SECRET, PROJECT_URL } = process.env;
+import { userSigninSchema, userSignupSchema } from "../schemas/usersSchemas.js";
+import { BadRequestError } from '../helpers/BadRequestError.js';
+
+// const { JWT_SECRET, PROJECT_URL } = process.env;
 
 const signup = async (req, res) => {
-  const { name, email, password } = req.body;
-  const user = await authServices.findUser({ email });
-  if (user) {
+  const { value, error } = userSignupSchema.validate(req.body, {
+    abortEarly: false,
+  });
+  const { name, email, password } = value;
+
+  if (error) BadRequestError(error);
+
+  const userEmail = await User.findOne({ email });
+  if (userEmail) {
     throw HttpError(409, 'Email in use');
   }
 
@@ -28,12 +37,13 @@ const signup = async (req, res) => {
   // const verificationToken = nanoid();
 
   const newUser = await authServices.signup({
-    ...req.body,
+    name,
+    email,
     password: hashPassword,
     // verificationToken,
   });
-  const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '48h' });
-  await authServices.updateUser({ _id: id }, { token });
+  // const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '48h' });
+  // await authServices.updateUser({ _id: id }, { token });
 
   // const verifyEmail = {
   //   to: email,
@@ -43,7 +53,7 @@ const signup = async (req, res) => {
 
   // await sendEmail(verifyEmail);
   res.status(201).json({
-    token: token,
+    // token: token,
     user: {
       name: newUser.name,
       email: newUser.email,
@@ -95,8 +105,14 @@ const signup = async (req, res) => {
 // };
 
 const singin = async (req, res) => {
-  const { email, password } = req.body;
-  const user = await authServices.findUser({ email });
+  // const { email, password } = req.body;
+  const { value, error } = userSigninSchema.validate(req.body, {
+    abortEarly: false,
+  });
+  if (error) BadRequestError(error);
+
+  const { email, password } = value;
+  const user = await User.findOne({ email });
   if (!user) {
     throw HttpError(401, 'Email or password is wrong');
   }
@@ -108,30 +124,40 @@ const singin = async (req, res) => {
     throw HttpError(401, 'Email or password is wrong');
   }
 
-  const { _id: id } = user;
+  const accessToken = user.signToken();
+  // const { _id: id } = user;
 
-  const payload = {
-    id,
-  };
+  // const payload = {
+  //   id,
+  // };
 
-  const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '48h' });
-  await authServices.updateUser({ _id: id }, { token });
+  // const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '48h' });
+  // await authServices.updateUser({ _id: id }, { token });
+
+  await User.findOneAndUpdate({ email }, { accessToken });
 
   res.json({
-    token: token,
-    user: { name: user.name, email: user.email, avatarURL: user.avatarURL, theme: user.theme },
-  });
+    accessToken,
+    user: {
+      name: user.name,
+      email: user.email,
+      theme: user.theme,
+      avatarURL: user.avatarURL,
+    },
+  })
 };
 
 const getCurrent = async (req, res) => {
-    const { email } = req.user;
-    if(!email) {
-        throw HttpError(401, "Not authorized");
-    }
+    const { _id, name, email, theme, avatarURL } = req.user;
+    // if(!email) {
+    //     throw HttpError(401, "Not authorized");
+    // }
     res.json({
-        email,
-        avatarURL, 
-        theme,
+      _id,
+      name,
+      email,
+      theme,
+      avatarURL
     })
 }
 
@@ -153,15 +179,19 @@ const getCurrent = async (req, res) => {
 // };
 
 const signout = async (req, res) => {
-    const { _id } = req.user;
-    await authServices.updateUser({ _id }, { token: "" });
-    if(!_id) {
-        throw HttpError(401, "Not authorized");
-    }
-    res.status(204).json({
+  const { user } = req;
+  await User.findOneAndUpdate({ _id: user._id }, { accessToken: "" });
+  res.status(204).json();
+    // const { _id } = req.user;
+    // await authServices.updateUser({ _id }, { token: "" });
+    // if(!_id) {
+    //     throw HttpError(401, "Not authorized");
+    // }
+    // res.status(204).json({
 
-    })
+    // })
 }
+
 const updateUser = async (req, res) => {
   const { _id: id } = req.user;
   console.log(req.body);
