@@ -32,7 +32,7 @@ authRouter.post('/logout', authenticate, authControllers.signout);
 authRouter.patch(
   '/update',
   authenticate,
-  upload.single('avatar'),
+  upload.single('avatarURL'),
   validateBody(userUpdateSchema),
   authControllers.updateUser
 );
