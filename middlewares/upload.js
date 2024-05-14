@@ -29,4 +29,4 @@ export const upload = multer({
   storage,
   limits,
   fileFilter,
-});
+}).single('avatar');
