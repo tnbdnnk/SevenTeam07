@@ -1,5 +1,5 @@
 import express from 'express';
-
+import multer from 'multer';
 import authControllers from '../controllers/authControllers.js';
 
 import {
@@ -32,7 +32,16 @@ authRouter.post('/logout', authenticate, authControllers.signout);
 authRouter.patch(
   '/update',
   authenticate,
-  upload.single('avatarURL'),
+  function (req, res, next) {
+    upload(req, res, function (err) {
+      if (err instanceof multer.MulterError) {
+        return res.status(401).json({
+          err,
+        });
+      }
+      next();
+    });
+  },
   validateBody(userUpdateSchema),
   authControllers.updateUser
 );
