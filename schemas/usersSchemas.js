@@ -41,7 +41,7 @@ export const userUpdateSchema = Joi.object({
     })
     .optional(),
   password: Joi.string().min(8).max(64).optional(),
-  avatar: Joi.binary(),
+  avatarURL: Joi.binary().optional(),
 });
 
 export const userThemeUpdateSchema = Joi.object({
