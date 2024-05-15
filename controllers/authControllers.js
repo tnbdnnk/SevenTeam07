@@ -107,7 +107,7 @@ const updateUser = async (req, res) => {
   const { _id: id, email } = req.user;
   console.log(req.body);
 
-  const { name: updateName, email: updateEmail, password: updatePassword, avatarURL: updateAvatar } = req.body;
+  const { name: updateName, email: updateEmail, password: updatePassword } = req.body;
   console.log(updatePassword);
 
   const { file } = req;
@@ -118,7 +118,6 @@ const updateUser = async (req, res) => {
   const isUpdateUserInfo = {
     email: updateEmail,
     name: updateName,
-    avatarURL: updateAvatar
   };
   // if (updateEmail) {
   //   isUpdateUserInfo.email = updateEmail;
