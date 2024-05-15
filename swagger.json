@@ -1433,31 +1433,6 @@
                     }
                 }
             },
-            "RefreshTokenRequest": {
-                "type": "object",
-                "properties": {
-                    "refreshToken": {
-                        "type": "string",
-                        "description": "refreshToken",
-                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWM3YzRkYmFiMWNiNTVhNzgwYTBkNCIsImlhdCI6MTY5MzkxMzcyMywiZXhwIjoxNjkzOTEzODQzfQ.idCG_1wBTso34eHr54IgV_kB6VTwPQ_5VT_XbUOzP_s"
-                    }
-                }
-            },
-            "RefreshTokenResponse": {
-                "type": "object",
-                "properties": {
-                    "accessToken": {
-                        "type": "string",
-                        "description": "accessToken",
-                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWM3YzRkYmFiMWNiNTVhNzgwYTBkNCIsImlhdCI6MTY5MzkxMzcyMywiZXhwIjoxNjkzOTEzODQzfQ.idCG_1wBTso34eHr54IgV_kB6VTwPQ_5VT_XbUOzP_s"
-                    },
-                    "refreshToken": {
-                        "type": "string",
-                        "description": "refreshToken",
-                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWM3YzRkYmFiMWNiNTVhNzgwYTBkNCIsImlhdCI6MTY5MzkxMzcyMywiZXhwIjoxNjkzOTEzODQzfQ.idCG_1wBTso34eHr54IgV_kB6VTwPQ_5VT_XbUOzP_s"
-                    }
-                }
-            },
             "ErrorBadRequest": {
                 "type": "object",
                 "properties": {
@@ -1500,21 +1475,6 @@
                         "type": "string",
                         "description": "Error message",
                         "example": "Unautorized"
-                    }
-                }
-            },
-            "RefreshTokenForbidden": {
-                "type": "object",
-                "properties": {
-                    "status": {
-                        "type": "integer",
-                        "description": "Error status code",
-                        "example": "403"
-                    },
-                    "message": {
-                        "type": "string",
-                        "description": "Invalid token message",
-                        "example": "Invalid token"
                     }
                 }
             },
@@ -2397,57 +2357,6 @@
                 }
             },
             "UpdateCardResponse": {
-                "type": "object",
-                "properties": {
-                    "_id": {
-                        "type": "string",
-                        "description": "Card's id",
-                        "example": "64ec7c4dbab1cb55a780a0d7"
-                    },
-                    "title": {
-                        "type": "string",
-                        "description": "Card's title",
-                        "example": "First card"
-                    },
-                    "description": {
-                        "type": "string",
-                        "description": "Card's description",
-                        "example": "Description"
-                    },
-                    "priority": {
-                        "type": "string",
-                        "description": "Card's priority",
-                        "example": "without priority",
-                        "enum": ["without priority", "low", "medium", "high"]
-                    },
-                    "deadline": {
-                        "type": "string",
-                        "description": "Card's deadline",
-                        "example": "DD-MM-YYYY"
-                    },
-                    "column": {
-                        "type": "string",
-                        "description": "Column's id",
-                        "example": "64ec7c4dbab1cb55a780a0d7"
-                    }
-                }
-            },
-            "TransportCardRequest": {
-                "type": "object",
-                "properties": {
-                    "source": {
-                        "type": "string",
-                        "description": "Present column's id",
-                        "example": "64ec7c4dbab1cb55a780a0d7"
-                    },
-                    "destination": {
-                        "type": "string",
-                        "description": "Future column's id",
-                        "example": "64ec7c4dbab1cb55a780a0d7"
-                    }
-                }
-            },
-            "TransportCardResponse": {
                 "type": "object",
                 "properties": {
                     "_id": {
