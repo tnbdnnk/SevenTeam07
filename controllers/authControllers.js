@@ -153,7 +153,7 @@ const sendNeedHelpEmail = async (req, res, next) => {
   const { email, text } = req.body;
 
   const needHelpEmail = {
-    to: 'oleksii.mbox@gmail.com',
+    to: 'taskpro.project@gmail.com',
     subject: 'Need Help',
     html: `<p>Email: ${email}</p><p>Comment:</p><p>${text}</p>`,
   };
