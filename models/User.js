@@ -22,7 +22,7 @@ const userSchema = new Schema(
     },
     avatarURL: {
       type: String,
-      default: 'http://res.cloudinary.com/dgo1apgvd/image/upload/v1714867826/avatar/default.jpg',
+      default: '',
     },
     theme: {
       type: String,
