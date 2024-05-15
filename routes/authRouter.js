@@ -32,16 +32,7 @@ authRouter.post('/logout', authenticate, authControllers.signout);
 authRouter.patch(
   '/update',
   authenticate,
-  function (req, res, next) {
-    upload(req, res, function (err) {
-      if (err instanceof multer.MulterError) {
-        return res.status(401).json({
-          err,
-        });
-      }
-      next();
-    });
-  },
+  upload.single('avatar'),
   validateBody(userUpdateSchema),
   authControllers.updateUser
 );
@@ -53,10 +44,6 @@ authRouter.patch(
   authControllers.updateTheme
 );
 
-authRouter.post(
-  '/help',
-  validateBody(needHelpEmailSchema),
-  authControllers.sendNeedHelpEmail
-);
+authRouter.post('/help', validateBody(needHelpEmailSchema), authControllers.sendNeedHelpEmail);
 
 export default authRouter;
