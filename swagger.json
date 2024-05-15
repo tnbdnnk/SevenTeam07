@@ -1337,7 +1337,7 @@
             },
             "ChangeThemeRequest": {
                 "type": "object",
-                "required": ["userTheme"],
+                "required": ["theme"],
                 "properties": {
                     "userTheme": {
                         "type": "string",
@@ -1376,14 +1376,6 @@
             "UpdateUserProfileResponse": {
                 "type": "object",
                 "properties": {
-                    "accessToken": {
-                        "type": "string",
-                        "example": "exampleAccessToken"
-                    },
-                    "refreshToken": {
-                        "type": "string",
-                        "example": "exampleRefreshToken"
-                    },
                     "user": {
                         "type": "object",
                         "properties": {
@@ -1652,7 +1644,7 @@
                                     "description": "owner's avatar",
                                     "example": "https://exampleURL"
                                 },
-                                "userTheme": {
+                                "theme": {
                                     "type": "string",
                                     "description": "user's theme",
                                     "example": "light"
@@ -1771,7 +1763,7 @@
                                 "description": "owner's avatar",
                                 "example": "https://exampleURL"
                             },
-                            "userTheme": {
+                            "theme": {
                                 "type": "string",
                                 "description": "user's theme",
                                 "example": "light"
