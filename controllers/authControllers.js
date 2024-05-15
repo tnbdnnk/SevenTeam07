@@ -104,11 +104,10 @@ const signout = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  try {
   const { _id: id, email } = req.user;
   console.log(req.body);
 
-  const { name: updateName, email: updateEmail, password: updatePassword, avatar: updateAvatar } = req.body;
+  const { name: updateName, email: updateEmail, password: updatePassword, avatarURL: updateAvatar } = req.body;
   console.log(updatePassword);
 
   const { file } = req;
@@ -119,7 +118,7 @@ const updateUser = async (req, res) => {
   const isUpdateUserInfo = {
     email: updateEmail,
     name: updateName,
-    avatar: updateAvatar,
+    avatarURL: updateAvatar
   };
   // if (updateEmail) {
   //   isUpdateUserInfo.email = updateEmail;
@@ -136,15 +135,12 @@ const updateUser = async (req, res) => {
       public_id: file.filename,
     });
     await fs.unlink(req.file.path);
-    isUpdateUserInfo.avatar = avatarURL;
+    isUpdateUserInfo.avatarURL = avatarURL;
   }
 
   const result = await User.findByIdAndUpdate(id, isUpdateUserInfo);
   if (!result) throw HttpError(404);
   res.json({ name: result.name, email: result.email, avatarURL: result.avatarURL });
-  } catch (error) {
-  return next(HttpError(404, error.message));
-  }
 };
 
 const updateTheme = async (req, res) => {
