@@ -12,10 +12,12 @@ import path from 'path';
 import { token } from 'morgan';
 import User from '../models/User.js';
 import Jimp from 'jimp';
-import sendEmail from '../helpers/sendEmail.js';
+// import {sendEmail} from '../helpers/sendEmail.js';
 import cloudinary from '../helpers/cloudinary.js';
 
-const { JWT_SECRET } = process.env;
+import { sendHelpEmail } from '../helpers/sendEmail.js';
+
+const { JWT_SECRET, SENDGRID_FROM } = process.env;
 
 const signup = async (req, res) => {
   const { name, email, password } = req.body;
@@ -153,12 +155,14 @@ const sendNeedHelpEmail = async (req, res, next) => {
   const { email, text } = req.body;
 
   const needHelpEmail = {
-    to: 'oleksii.mbox@gmail.com',
+    to: 'xalexey.g@gmail.com',
+    from: SENDGRID_FROM,
     subject: 'Need Help',
+    text: 'Need Help',
     html: `<p>Email: ${email}</p><p>Comment:</p><p>${text}</p>`,
-  };
+  }
 
-  await sendEmail(needHelpEmail);
+  await sendHelpEmail(needHelpEmail);
   res.status(200).json({
     message: 'Need Help email has been sent',
   });
