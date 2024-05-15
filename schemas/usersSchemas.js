@@ -37,11 +37,11 @@ export const userUpdateSchema = Joi.object({
   email: Joi.string()
     .pattern(emailRegepxp)
     .messages({
-      'string.pattern.base': 'Email must be a valid email address',
+      "string.pattern.base": "Email must be a valid email address",
     })
     .optional(),
   password: Joi.string().min(8).max(64).optional(),
-  avatar: Joi.binary(),
+  avatar: Joi.string().uri().optional(),
 });
 
 export const userThemeUpdateSchema = Joi.object({
