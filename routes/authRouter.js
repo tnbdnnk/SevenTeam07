@@ -46,7 +46,6 @@ authRouter.patch(
 
 authRouter.post(
   '/help',
-  authenticate,
   validateBody(needHelpEmailSchema),
   authControllers.sendNeedHelpEmail
 );
