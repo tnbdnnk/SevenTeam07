@@ -20,10 +20,7 @@ const addCard = ctrlWrapper(async (req, res) => {
     // const data = { ...result._doc, deadline };
     // res.status(201).json(data);
     const { title, label, deadline, description } = req.body;
-
-  // Перетворення дедлайну на об'єкт Date
     const parsedDeadline = deadline ? new Date(deadline) : null;
-
     const result = await Card.create({
         title,
         label,
@@ -31,11 +28,8 @@ const addCard = ctrlWrapper(async (req, res) => {
         description,
         cardOwner: id,
     });
-
-    // Форматування дати для відповіді
     const formattedDeadline = result.deadline ? result.deadline.toISOString() : null;
     const data = { ...result._doc, deadline: formattedDeadline };
-
     res.status(201).json(data);
 });
 
