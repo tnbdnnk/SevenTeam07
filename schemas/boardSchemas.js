@@ -39,7 +39,16 @@ const addBoardSchema = Joi.object({
 
 const updateBoardSchema = Joi.object({
   title: Joi.string(),
-  icons: Joi.string().valid(),
+  icons: Joi.string().valid(
+    "#icon-four-balls",
+    "#icon-star",
+    "#icon-loading",
+    "#icon-puzzle",
+    "#icon-container",
+    "#icon-lightning",
+    "#icon-colors",
+    "#icon-hexagon"
+  ),
   background: Joi.string().valid(
     "noBg",
     "bg1",
