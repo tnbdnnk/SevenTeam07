@@ -108,18 +108,18 @@ const deleteBoard = ctrlWrapper(async (req, res) => {
 const updateBoard = ctrlWrapper(async (req, res) => {
   const { _id: owner } = req.user;
   const { id } = req.params;
-  const { title, icons, background } = req.body;
+  const { title, icon, background } = req.body;
   const board = await Board.findOne({ _id: id, owner });
   if (!board) {
     throw HttpError(404, "Not Found");
   }
   if (
     (title && title !== board.title) ||
-    (icons && icons !== board.icons) ||
+    (icon && icon !== board.icon) ||
     (background && background !== board.background)
   ) {
     if (title) board.title = title;
-    if (icons) board.icons = icons;
+    if (icon) board.icon = icon;
     if (background) board.background = background;
     const updatedBoard = await board.save();
     res.json(updatedBoard);
