@@ -7,7 +7,7 @@ const boardSchema = new Schema(
       type: String,
       required: [true, "Title for board is required!"],
     },
-    icons: {
+    icon: {
       type: String,
       default: "icon-project",
     },

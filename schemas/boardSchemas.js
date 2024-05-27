@@ -4,7 +4,7 @@ const addBoardSchema = Joi.object({
   title: Joi.string()
     .required()
     .messages({ "any.required": "missing required Board title" }),
-  icons: Joi.string().valid(
+  icon: Joi.string().valid(
     "#icon-four-balls",
     "#icon-star",
     "#icon-loading",
@@ -39,7 +39,7 @@ const addBoardSchema = Joi.object({
 
 const updateBoardSchema = Joi.object({
   title: Joi.string(),
-  icons: Joi.string().valid(
+  icon: Joi.string().valid(
     "#icon-four-balls",
     "#icon-star",
     "#icon-loading",
